@@ -452,8 +452,20 @@ def updatecompany():
             # redirect ke link pegawai
         return redirect(url_for('mycompany'))
 
-
-
+#Membuat route menuju menu pegawai
+@app.route('/kucing')
+def kucing():
+    if not session.get("userid"): #Jika session tidak mendapat userid (tidak sign in)
+        return redirect('404') #akan menuju halaman error
+    else:
+        oneteam = Team.fetch_one(session["userid"])
+        listteam = Team.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+        idteam = Team.idteam()  # membuat variabel untuk menyimpan row data dari database
+        newmessage = SendMessage.fetch_new3message()
+        # merender template pegawai (view) dan memasukan data yang dari variabel listpegawai
+        return render_template("team.html", data=dict({'listteam': listteam}),
+                               dataID=idteam, DataU=dict({'oneteam': oneteam}),
+                               DataNew=dict({'newmessage': newmessage}))
 
 
 # main untuk menjalankan app

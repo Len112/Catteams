@@ -29,7 +29,7 @@ class Team:
 
         #insert data into tteam table
     def create(self, team=dict({})):
-        # execute query insert in mysql database tpegawai
+        # execute query insert in mysql database tteam
         self.cursor.execute('INSERT INTO tteam(namateam,jeniskelamin,nomorhp,alamat,jabatan,userid) VALUES (%s,%s,%s,%s,%s,%s)',
                             (team['namateam'], team['jeniskelamin'], team['nomorhp'], team['alamat'], team['jabatan'], team['userid']))
         self.cursor.execute(
@@ -40,7 +40,7 @@ class Team:
 
        # update data into tteam table
     def update(self, team=dict({})):
-        # execute query update in mysql database tpegawai
+        # execute query update in mysql database tteam
         self.cursor.execute('UPDATE tteam SET namateam= %s, jeniskelamin= %s , nomorhp= %s, alamat=%s, jabatan=%s WHERE idteam= %s',
                             (team['namateam'], team['jeniskelamin'], team['nomorhp'], team['alamat'],team['jabatan'], team['idteam']))
         # Commit your changes in the database
@@ -61,19 +61,19 @@ class Team:
         self.conn.commit()
 
     def setIncrement(self, maxid):
-        # execute query auto increment in mysql database tpegawai
+        # execute query auto increment in mysql database tteam
         self.cursor.execute('ALTER TABLE tteam AUTO_INCREMENT = %s ', (maxid+1,))
         # Commit your changes in the database
         self.conn.commit()
 
     def idteam(self):
-        # execute query in mysql database ttransaksisementara
+        # execute query in mysql database tteam
         self.cursor.execute('SELECT MAX(idteam) FROM tteam')
         # return result from fetchone method
         return self.cursor.fetchone()[0]
 
     def count(self):
-        # execute query delete in mysql database tMessage
+        # execute query delete in mysql database tteam
         self.cursor.execute('SELECT COUNT(idteam) FROM tteam WHERE 1')
         # Commit your changes in the database
         self.cursor.fetchone()[0]
