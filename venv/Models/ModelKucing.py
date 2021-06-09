@@ -36,9 +36,9 @@ class Kucing:
         self.conn.commit()
 
        # update data into tkucing table
-    def update(self, team=dict({})):
+    def update(self, kucing=dict({})):
         # execute query update in mysql database tpegawai
-        self.cursor.execute('UPDATE tkucing SET namakucing= %s,jeniskucing= %s ,usiakucing=%s,ukurankucing=%s jeniskelamin= %s , photokucing= %s, tentangkucing=%s, statuskucing=%s WHERE idkucing= %s',
+        self.cursor.execute('UPDATE tkucing SET namakucing= %s,jeniskucing= %s ,usiakucing=%s,ukurankucing=%s , jeniskelamin= %s , photokucing= %s, tentangkucing=%s, statuskucing=%s WHERE idkucing= %s',
                             (kucing['namakucing'],kucing['jeniskucing'],kucing['usiakucing'],kucing['ukurankucing'], kucing['jeniskelamin'], kucing['photokucing'],
                              kucing['tentangkucing'], kucing['statuskucing'], kucing['idkucing']))
         # Commit your changes in the database

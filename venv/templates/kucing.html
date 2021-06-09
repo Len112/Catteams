@@ -22,8 +22,8 @@
               <h3 class="page-title"> Kelola Data Kucing </h3>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#tabelpegawai">Tables</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Data Team tables</li>
+                  <li class="breadcrumb-item"><a href="#tabelKucing">Tables</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Data Kucing tables</li>
                 </ol>
               </nav>
             </div>
@@ -33,10 +33,10 @@
                   <div class="card-body">
                     <button
                       class="btn btn-gradient-primary btn-fw float-right" type="button" data-toggle="modal" data-target="#addpegawai">
-                       Add New Team
+                       Add New Kucing
                    </button>
-                    <h4 class="card-title">Kelola Data Team</h4>
-                    <p class="card-description"> Tambah, Edit, Hapus <code> Data team </code>
+                    <h4 class="card-title">Kelola Data Kucing</h4>
+                    <p class="card-description"> Tambah, Edit, Hapus <code> Data Kucing </code>
                     </p>
                      {% with messages = get_flashed_messages() %}
                        {% if messages %}
@@ -50,72 +50,123 @@
                         {% endfor %}
                        {% endif %}
                      {% endwith %}
-                    <table class="table table-hover" id="tabelpegawai">
+                    <table class="table table-hover" id="tabelKucing">
                       <thead class="text-center">
                         <tr>
-                            <th>User</th>
-                            <th>Nama Team</th>
+                            <th>Kucing</th>
+                            <th>Jenis Kucing</th>
+                            <th>Usia Kucing</th>
+                            <th>Ukuran Kucing</th>
                             <th>Jenis Kelamin</th>
-                            <th>Nomor HP</th>
-                            <th>Alamat</th>
-                            <th>Jabatan</th>
+                            <th>Status Kucing</th>
                             <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                         <!-- Mengambil data dari database tteam akan mengulang sesuai banyak data di tabel -->
-                       {% for team in data['listteam'] %}
+                         <!-- Mengambil data dari database tkucing akan mengulang sesuai banyak data di tabel -->
+                       {% for kucing in data['listkucing'] %}
                           <td class="py-1">
-                            <img src="static/assets/images/faces/{{team[6]}}"  alt="image"/>
-                              {{ team[7] }}
+                            <img src="static/assets/img/portfolio/{{kucing[6]}}"  alt="image"/>
+                              {{ kucing[1] }}
                           </td>
-                          <td>{{ team[1] }}</td>
-                          <td>{{ team[2] }}</td>
-                          <td>{{ team[3] }}</td>
-                          <td>{{ team[4] }}</td>
-                          <td>{{ team[5] }}</td>
+                          <td>{{ kucing[2] }}</td>
+                          <td>{{ kucing[3] }}</td>
+                          <td>{{ kucing[4] }}</td>
+                          <td>{{ kucing[5] }}</td>
+                          <td>{{ kucing[8] }}</td>
                           <td class="text-center">
                            <div>
-                              <a class="btn btn-gradient-warning btn-xs" href="/updatepegawai/{{team[0]}}" data-toggle="modal" data-target="#updateteam{{team[0] }}">
+                              <a class="btn btn-gradient-warning btn-xs" href="/updatekucing/{{kucing[0]}}" data-toggle="modal" data-target="#updatekucing{{kucing[0] }}">
                                Edit
                               </a>
                            </div><br>
                            <div>
-                            {% if session['userid'] == team[7] %}
-                            <button  class="btn btn-gradient-danger btn-xs" href="" onclick="return alert('Tidak dapat menghapus sedang login!!')">
-                              Hapus
-                            </button>
-                            {% else %}
-                            <a class="btn btn-gradient-danger btn-xs" href="/deleteteam/{{ team[0] }}/{{ team[7] }}" onclick="return confirm('Anda yakin ingin menghapus ?')">
+                            <a class="btn btn-gradient-danger btn-xs" href="/deletekucing/{{kucing[0]}}" onclick="return confirm('Anda yakin ingin menghapus ?')">
                               Hapus
                             </a>
-                            {% endif %}
                            </div>
                           </td>
                         </tr>
                         <!-- Update team Info Modal -->
-                         <div id="updateteam{{ team[0] }}" class="modal fade" role="dialog">
+                         <div id="updatekucing{{kucing[0]}}" class="modal fade" role="dialog">
                           <div class="modal-dialog">
                            <div class="modal-content">
                              <div class="modal-header">
-                               <h4 class="modal-title">EDIT DATA TEAM</h4>
+                               <h4 class="modal-title">EDIT DATA KUCING</h4>
                              </div>
                                <div class="modal-body">
-                                 <form action="{{ url_for('updateteam') }}" method="POST">
-                                   <input type="hidden" class="form-control" name="idteam" value="{{ team[0] }}">
+                                 <form action="{{ url_for('updatekucing') }}" enctype="multipart/form-data" method="POST">
+                                   <input type="hidden" class="form-control" name="idkucing" value="{{kucing[0]}}">
                                     <div class="form-group">
-                                     <label>Nama Pegawai:</label>
-                                      <input type="text" class="form-control" name="namateam" id="namateam2" maxlength="30" required value="{{team[1]}}">
+                                     <label>Nama Kucing:</label>
+                                      <input type="text" class="form-control" name="namakucing" id="" maxlength="30" required value="{{kucing[1]}}">
                                     </div>
+                                     <div class="form-group">
+                                     <label>Jenis Kucing:</label>
+                                      <input type="text" class="form-control" name="jeniskucing" id="" maxlength="30" required value="{{kucing[2]}}">
+                                      <input type="text" class="form-control" name="photokucing" value="{{kucing[6]}}" hidden>
+                                    </div>
+                                    <div class="form-group">
+                                     <p>Usia Kucing:</p>
+                                   {% if kucing[3] in 'Kitten' %}
+                                    <input type="radio" id="Kitten" name="usiakucing" value="Kitten" checked>
+                                     <label for="usiakucing"><strong>Kitten</strong></label>
+                                    <input type="radio" id="Adult" name="usiakucing" value="Adult">
+                                     <label for="usiakucing"><strong>Adult</strong></label>
+                                      <input type="radio" id="Senior" name="usiakucing" value="Senior">
+                                     <label for="usiakucing"><strong>Senior</strong></label><br>
+                                   {% elif kucing[3] in 'Adult' %}
+                                   <input type="radio" id="Kitten" name="usiakucing" value="Kitten">
+                                     <label for="usiakucing"><strong>Kitten</strong></label>
+                                    <input type="radio" id="Adult" name="usiakucing" value="Adult" checked>
+                                     <label for="usiakucing"><strong>Adult</strong></label>
+                                      <input type="radio" id="Senior" name="usiakucing" value="Senior">
+                                     <label for="usiakucing"><strong>Senior</strong></label><br>
+                                    {% elif kucing[3] in 'Senior' %}
+                                   <input type="radio" id="Kitten" name="usiakucing" value="Kitten">
+                                     <label for="usiakucing"><strong>Kitten</strong></label>
+                                    <input type="radio" id="Adult" name="usiakucing" value="Adult">
+                                     <label for="usiakucing"><strong>Adult</strong></label>
+                                      <input type="radio" id="Senior" name="usiakucing" value="Senior" checked>
+                                     <label for="usiakucing"><strong>Senior</strong></label><br>
+
+                                   {%endif%}
+                               </div>
+                                  <div class="form-group">
+                                     <p>Ukuran Kucing:</p>
+                                   {% if kucing[4] in 'Small' %}
+                                    <input type="radio" id="Small" name="ukurankucing" value="Small" checked>
+                                     <label for="ukurankucing"><strong>Small</strong></label>
+                                    <input type="radio" id="Medium" name="ukurankucing" value="Medium">
+                                     <label for="ukurankucing"><strong>Medium</strong></label>
+                                      <input type="radio" id="Large" name="ukurankucing" value="Large">
+                                     <label for="ukurankucing"><strong>Large</strong></label><br>
+                                   {% elif kucing[4] in 'Medium' %}
+                                   <input type="radio" id="Small" name="ukurankucing" value="Small">
+                                     <label for="ukurankucing"><strong>Small</strong></label>
+                                    <input type="radio" id="Medium" name="ukurankucing" value="Medium"  checked>
+                                     <label for="ukurankucing"><strong>Medium</strong></label>
+                                      <input type="radio" id="Large" name="ukurankucing" value="Large">
+                                     <label for="ukurankucing"><strong>Large</strong></label><br>
+                                    {% elif kucing[4] in 'Large' %}
+                                   <input type="radio" id="Small" name="ukurankucing" value="Small">
+                                     <label for="ukurankucing"><strong>Small</strong></label>
+                                    <input type="radio" id="Medium" name="ukurankucing" value="Medium">
+                                     <label for="ukurankucing"><strong>Medium</strong></label>
+                                      <input type="radio" id="Large" name="ukurankucing" value="Large" checked>
+                                     <label for="ukurankucing"><strong>Large</strong></label><br>
+
+                                   {%endif%}
+                               </div>
                                <div class="form-group">
                                 <p>Jenis Kelamin:</p>
-                                   {% if team[2] in 'Perempuan' %}
+                                   {% if kucing[5] in 'Perempuan' %}
                                  <input type="radio" id="Laki-Laki" name="jeniskelamin" value="Laki-Laki">
                                    <label for="Laki-Laki"><strong>Laki-Laki</strong></label>
                                  <input type="radio" id="Perempuan" name="jeniskelamin" value="Perempuan" checked>
                                    <label for="Jeniskelamin"><strong>Perempuan</strong></label><br>
-                                   {% elif team[2] in 'Laki-Laki' %}
+                                   {% elif kucing[5] in 'Laki-Laki' %}
                                  <input type="radio" id="Laki-Laki" name="jeniskelamin" value="Laki-Laki" checked>
                                    <label for="Laki-Laki"><strong>Laki-Laki</strong></label>
                                  <input type="radio" id="Perempuan" name="jeniskelamin" value="Perempuan">
@@ -123,39 +174,20 @@
                                    {%endif%}
                                </div>
                                <div class="form-group">
-                                <label>Phone:</label>
-                                 <input type="number" class="form-control" name="nomorhp" maxlength="15" required value="{{team[3] }}">
+                                <label>Tentang Kucing:</label>
+                                  <textarea class="form-control" name="tentangkucing" id="tentangkucing" rows="4" maxlength="190">{{kucing[7]}}</textarea>
                                </div>
-                               <div class="form-group">
-                                <label>Alamat:</label>
-                                 <input type="text" class="form-control" name="alamat" maxlength="45" required value="{{ team[4] }}">
-                                   <input type="text" class="form-control" name="userid" hidden value="{{team[7] }}">
+                                 <div class="form-group">
+                                <label>Photo Kucing:</label>
+                                <input type="file" name="photokucing" onchange="ValidateSize2(this,event)"  class="file-upload-default" value="pic-1.png" accept="image/png,image/x-png,image/gif,image/jpeg" >
+                                <div class="input-group col-xs-12">
+                                 <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                 <span class="input-group-append">
+                                 <button class="file-upload-browse btn btn-gradient-primary" type="button">Browse</button>
+                                 </span>
+                                </div>
                                </div>
-                               <div class="form-group">
-                                <p>Jabatan:</p>
-                                   {% if team[5] in 'Executive' %}
-                                 <input type="radio" id="Executive" name="jabatan" value="Executive" required checked>
-                                   <label for="jabatan"><strong>Executif</strong></label>
-                                 <input type="radio" id="Manager" name="jabatan" value="Manager" required>
-                                   <label for="jabatan"><strong>Manager</strong></label>
-                                 <input type="radio" id="Contributor" name="jabatan" value="Contributor" required>
-                                   <label for="jabatan"><strong>Contributor</strong></label><br>
-                                 {% elif team[5] in 'Manager' %}
-                                 <input type="radio" id="Executive" name="jabatan" value="Executive" required>
-                                   <label for="jabatan"><strong>Executive</strong></label>
-                                  <input type="radio" id="Manager" name="jabatan" value="Manager" required checked>
-                                   <label for="jabatan"><strong>Manager</strong></label>
-                                 <input type="radio" id="Contributor" name="jabatan" value="Contributor" required>
-                                   <label for="jabatan"><strong>Contributor</strong></label><br>
-                                   {% elif team[5] in 'Contributor' %}
-                                 <input type="radio" id="Executive" name="jabatan" value="Executive" required>
-                                   <label for="jabatan"><strong>Executive</strong></label>
-                                 <input type="radio" id="Manager" name="jabatan" value="Manager" required>
-                                   <label for="jabatan"><strong>Manager</strong></label>
-                                 <input type="radio" id="Contributor" name="jabatan" value="Contributor" required checked>
-                                   <label for="jabatan"><strong>Contributor</strong></label><br>
-                                   {%endif%}
-                               </div>
+                               <p><img id="output2" width="100" src="static/assets/img/portfolio/{{kucing[6]}}"/></p>
                                <div class="form-group">
                                 <button class="btn btn-gradient-primary" type="submit">Confirm</button>
                                </div>
@@ -167,6 +199,19 @@
                             </div>
                            </div>
                          </div>
+                         <script>
+
+                                 function ValidateSize2(file,event) {
+                                 var FileSize = file.files[0].size / 1024 / 1024; // in MiB
+                                    if (FileSize > 2) {
+                                    alert('File size exceeds 2 MiB');
+                                    $(file).val(''); //for clearing with Jquery
+                                    } else {
+                                        var image = document.getElementById('output2');
+	                                    image.src = URL.createObjectURL(event.target.files[0]);
+                                    }
+                                 }
+                         </script>
                         <!-- End off Update team Info Modal -->
                         {%endfor%}
                       </tbody>
@@ -179,14 +224,36 @@
                           <div class="modal-dialog">
                            <div class="modal-content">
                              <div class="modal-header">
-                               <h4 class="modal-title">ADD NEW DATA TEAM</h4>
+                               <h4 class="modal-title">ADD NEW DATA KUCING</h4>
                              </div>
                                <div class="modal-body">
-                                 <form action="{{ url_for('insertteam') }}" method="POST" enctype="multipart/form-data" accept="image/*">
+                                 <form action="{{ url_for('insertkucing') }}" method="POST" enctype="multipart/form-data" accept="image/*">
                                     <div class="form-group">
-                                     <label>Nama Team:</label>
-                                      <input type="text" class="form-control" name="namateam" id="namateam" onchange="myFunction2({{dataID|int + 1}})" maxlength="30" required >
+                                     <label>Nama Kucing:</label>
+                                      <input type="text" class="form-control" name="namakucing" id="namakucing"  maxlength="30" required >
                                     </div>
+                               <div class="form-group">
+                                 <label>Jenis Kucing:</label>
+                                 <input type="text" class="form-control" name="jeniskucing" id="jeniskucing"  maxlength="30" required >
+                               </div>
+                                <div class="form-group">
+                                <p>Usia Kucing:</p>
+                                 <input type="radio" id="Young" name="usiakucing" value="Kitten" required>
+                                   <label for="Usiakucing"><strong>Kitten</strong></label>
+                                 <input type="radio" id="Adult" name="usiakucing" value="Adult" required>
+                                   <label for="Usiakucing"><strong>Adult</strong></label>
+                                  <input type="radio" id="Senior" name="usiakucing" value="Senior" required>
+                                   <label for="Usiakucing"><strong>Senior</strong></label><br>
+                               </div>
+                               <div class="form-group">
+                                <p>Ukuran Kucing:</p>
+                                 <input type="radio" id="Small" name="ukurankucing" value="Small" required>
+                                   <label for="Laki-Laki"><strong>Small</strong></label>
+                                 <input type="radio" id="Medium" name="ukurankucing" value="Medium" required>
+                                   <label for="Jeniskelamin"><strong>Medium</strong></label>
+                                  <input type="radio" id="Large" name="ukurankucing" value="Large" required>
+                                   <label for="Laki-Laki"><strong>Large</strong></label><br>
+                               </div>
                                <div class="form-group">
                                 <p>Jenis Kelamin:</p>
                                  <input type="radio" id="Laki-Laki" name="jeniskelamin" value="Laki-Laki" required>
@@ -194,31 +261,13 @@
                                  <input type="radio" id="Perempuan" name="jeniskelamin" value="Perempuan" required>
                                    <label for="Jeniskelamin"><strong>Perempuan</strong></label><br>
                                </div>
-                               <div class="form-group">
-                                <label>Phone:</label>
-                                 <input type="text" class="form-control" name="nomorhp" maxlength="15" required >
+                                <div class="form-group">
+                                <label>Tentang Kucing:</label>
+                                  <textarea class="form-control" name="tentangkucing" id="tentangkucing" rows="4" maxlength="190"></textarea>
                                </div>
                                <div class="form-group">
-                                <label>Alamat:</label>
-                                 <input type="text" class="form-control" name="alamat" maxlength="45" required >
-                               </div>
-                               <div class="form-group">
-                                <p>Jabatan:</p>
-                                 <input type="radio" id="Executive" name="jabatan" value="Executive" required>
-                                   <label for="jabatan"><strong>Executive</strong></label>
-                                 <input type="radio" id="Manager" name="jabatan" value="Manager" required>
-                                   <label for="jabatan"><strong>Manager</strong></label>
-                                 <input type="radio" id="Contributor" name="jabatan" value="Contributor" required>
-                                   <label for="jabatan"><strong>Contributor</strong></label><br>
-                               </div>
-                               <div class="form-group">
-                                <label>User ID:</label>
-                                 <input type="text" class="form-control" name="userid" id="user" readonly required >
-                                 <input type="text" class="form-control" name="userpassword" id="userpassword" hidden required value="12345">
-                               </div>
-                               <div class="form-group">
-                                <label>User Photo:</label>
-                                <input type="file" name="userphoto" onchange="ValidateSize(this,event)"  class="file-upload-default" value="pic-1.png" accept="image/png,image/x-png,image/gif,image/jpeg" >
+                                <label>Photo Kucing:</label>
+                                <input type="file" name="photokucing" onchange="ValidateSize(this,event)"  class="file-upload-default" value="pic-1.png" accept="image/png,image/x-png,image/gif,image/jpeg" >
                                 <div class="input-group col-xs-12">
                                  <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
                                  <span class="input-group-append">
@@ -233,14 +282,7 @@
                              </form>
                              </div>
                              <script>
-                                 //script function untuk generate value user id
-                                 function myFunction2(id) {
-                                       var x  = document.getElementById("namateam").value;
-                                       var x2 = x.replace(/\s/g, '') ;
-                                       var rand = Math.floor((Math.random() * 100));
-                                       document.getElementById("user").value = x2 + id + rand;
 
-                                 }
                                  function ValidateSize(file,event) {
                                  var FileSize = file.files[0].size / 1024 / 1024; // in MiB
                                     if (FileSize > 2) {

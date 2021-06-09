@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request, flash, session#import modul-modul yang disediakan flask
-from Models import ModelTeam, ModelUser, ModelMessage, ModelSubscribe, ModelCompany
+from Models import ModelTeam, ModelUser, ModelMessage, ModelSubscribe, ModelCompany, ModelKucing
 from datetime import datetime
 import os, time
 from werkzeug.utils import secure_filename
@@ -10,6 +10,7 @@ from flask_mail import Mail, Message
 
 app = Flask(__name__, static_url_path='/static')
 app.config["UPLOAD_FOLDER"]="./static/assets/images/faces" #path untuk upload folder
+app.config["UPLOAD_FOLDER2"]="./static/assets/img/portfolio" #path untuk upload folder
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 #size file upload
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif', '.jpeg'] #extension file
 Team = ModelTeam.Team() #membuat objek baru dari ModelTeam
@@ -17,6 +18,7 @@ User = ModelUser.User()#membuat objek baru dari ModelUser
 SendMessage = ModelMessage.Message()#membuat objek baru dari ModelMessage
 Subscribe = ModelSubscribe.Subscribe()#membuat objek baru dari ModelSubscribe
 Company = ModelCompany.Company()#membuat objek baru dari ModelCompany
+Kucing = ModelKucing.Kucing()#membuat objek baru dariModelCompany
 
 app.config['MAIL_SERVER']= 'smtp.gmail.com'
 app.config['MAIL_PORT']= 587
@@ -36,7 +38,8 @@ def static_dir(path):
 def home():
     onecompany = Company.fetch_all() # membuat variabel untuk menyimpan row data dari database
     listteam = Team.fetch_all()  # membuat variabel untuk menyimpan row data dari database
-    return render_template("home.html", DataC=dict({'onecompany':onecompany}),data = dict({'listteam':listteam}))
+    listkucing = Kucing.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+    return render_template("home.html", DataC=dict({'onecompany':onecompany}),data = dict({'listteam':listteam}), dataK=dict({'listkucing':listkucing}))
 
 @app.route("/404")
 def page404():
@@ -452,21 +455,99 @@ def updatecompany():
             # redirect ke link pegawai
         return redirect(url_for('mycompany'))
 
-#Membuat route menuju menu pegawai
+#Membuat route menuju menu daftar kucing
 @app.route('/kucing')
 def kucing():
     if not session.get("userid"): #Jika session tidak mendapat userid (tidak sign in)
         return redirect('404') #akan menuju halaman error
     else:
         oneteam = Team.fetch_one(session["userid"])
-        listteam = Team.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+        listkucing = Kucing.fetch_all()  # membuat variabel untuk menyimpan row data dari database
         idteam = Team.idteam()  # membuat variabel untuk menyimpan row data dari database
         newmessage = SendMessage.fetch_new3message()
         # merender template pegawai (view) dan memasukan data yang dari variabel listpegawai
-        return render_template("team.html", data=dict({'listteam': listteam}),
+        return render_template("kucing.html", data=dict({'listkucing': listkucing}),
                                dataID=idteam, DataU=dict({'oneteam': oneteam}),
                                DataNew=dict({'newmessage': newmessage}))
 
+#Membuat route menuju insert kucing dengan metode post
+@app.route('/insertkucing', methods=['GET','POST'])
+def insertkucing():
+    if not session.get("userid"): #Jika session tidak mendapat userid (tidak sign in)
+        return redirect('404') #akan menuju halaman error
+    else:
+        # membuat variabel  new_ pegawai untuk menampung data dari form input pegawai baru
+        if request.method == 'POST':
+            photo = request.files['photokucing']
+            filename = secure_filename(photo.filename)
+            if filename != '':
+                file_ext = os.path.splitext(filename)[1]
+                if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+                    return flash("File tidak sesuai"), 400
+                photo.save(os.path.join(app.config["UPLOAD_FOLDER2"], photo.filename))
+                photoname = photo.filename
+            else:
+                photoname = "kucing_profile.jpg"
+            new_kucing = {
+                'namakucing': request.form['namakucing'],
+                'jeniskucing': request.form['jeniskucing'],
+                'usiakucing': request.form['usiakucing'],
+                'ukurankucing': request.form['ukurankucing'],
+                'jeniskelamin': request.form['jeniskelamin'],
+                'photokucing': photoname,
+                'tentangkucing': request.form['tentangkucing'],
+                'statuskucing': "ready for adoption",
+            }
+            Kucing.create(kucing=new_kucing)
+            flash("Data berhasil ditambahkan")
+        # redirect ke link team
+        return redirect(url_for('kucing'))
+
+#Membuat route menuju update kucing dengan metode post
+@app.route('/updatekucing', methods=['POST'])
+def updatekucing():
+    if not session.get("userid"): #Jika session tidak mendapat userid (tidak sign in)
+        return redirect('404') #akan menuju halaman error
+    else:
+        # membuat variabel  new_ pegawai untuk menampung data dari form input pegawai baru
+        if request.method == 'POST':
+            photo = request.files['photokucing']
+            filename = secure_filename(photo.filename)
+            if filename != '':
+                file_ext = os.path.splitext(filename)[1]
+                if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+                    return "none"
+                photo.save(os.path.join(app.config["UPLOAD_FOLDER2"], photo.filename))
+                photoname = photo.filename
+            else:
+                photoname = request.form['photokucing']
+            new_kucing = {
+                'namakucing': request.form['namakucing'],
+                'jeniskucing': request.form['jeniskucing'],
+                'usiakucing': request.form['usiakucing'],
+                'ukurankucing': request.form['ukurankucing'],
+                'jeniskelamin': request.form['jeniskelamin'],
+                'photokucing': photoname,
+                'tentangkucing': request.form['tentangkucing'],
+                'statuskucing': "ready for adoption",
+                'idkucing': request.form['idkucing'],
+            }
+            Kucing.update(kucing=new_kucing)
+            flash("Data berhasil diedit")
+        # redirect ke link team
+        return redirect(url_for('kucing'))
+
+#Membuat route untuk menghapus data pegawai dengan idpegawai tertentu dengan metode GET
+@app.route('/deletekucing/<idkucing>', methods=['GET'])
+def deletekucing(idkucing):
+    if not session.get("userid"):  # Jika session tidak mendapat userid (tidak sign in)
+        return redirect('404')  # akan menuju halaman error
+    else:
+        # mengoper data id team ke delete function di model pegawai agar dapat mengeksekusi perintah query delete data
+        Kucing.delete(idkucing)
+        flash("Data berhasil dihapus")
+        # redirect ke link pegawai
+        return redirect(url_for('kucing'))
 
 # main untuk menjalankan app
 if __name__ == '__main__' :

@@ -121,138 +121,60 @@
               <li data-filter="*" class="filter-active">All</li>
               <li data-filter=".filter-app">Kittens</li>
               <li data-filter=".filter-card">Adult Cats</li>
-              <li data-filter=".filter-web">Adopted cats</li>
+              <li data-filter=".filter-web">Senior cats</li>
             </ul>
           </div>
         </div>
 
         <div class="row portfolio-container">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="{{url_for('static',filename='assets/img/portfolio/Kitten1.jpg')}}" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Kitten 1</h4>
-                <p>Kitten</p>
-                <div class="portfolio-links">
-                  <a href="{{url_for('static',filename='assets/img/portfolio/Kitten1.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Kitten 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+         {% for kucing in dataK['listkucing'] %}
+            {% if kucing[3] in 'Kitten' %}
+             <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+              <div class="portfolio-wrap">
+                 <img src="static/assets/img/portfolio/{{kucing[6]}}" class="img-fluid" alt="">
+                 <div class="portfolio-info">
+                   <h4>{{kucing[1]}}</h4>
+                   <p>{{kucing[2]}}</p>
+                   <div class="portfolio-links">
+                    <a href="static/assets/img/portfolio/{{kucing[6]}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Kitten 1"><i class="bx bx-plus"></i></a>
+                    <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                   </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="{{url_for('static',filename='assets/img/portfolio/Adopted1.jpg')}}" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Adopted Cat 1</h4>
-                <p>Adopted Cat</p>
-                <div class="portfolio-links">
-                  <a href="{{url_for('static',filename='assets/img/portfolio/Adopted1.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Adopted Cat 3"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+            {% endif %}
+          {% if kucing[3] in 'Adult' %}
+             <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+              <div class="portfolio-wrap">
+                 <img src="static/assets/img/portfolio/{{kucing[6]}}" class="img-fluid" alt="">
+                 <div class="portfolio-info">
+                   <h4>{{kucing[1]}}</h4>
+                   <p>{{kucing[2]}}</p>
+                   <div class="portfolio-links">
+                    <a href="static/assets/img/portfolio/{{kucing[6]}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Kitten 1"><i class="bx bx-plus"></i></a>
+                    <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                   </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="{{url_for('static',filename='assets/img/portfolio/Kitten2.jpg')}}" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Kitten 2</h4>
-                <p>Kitten</p>
-                <div class="portfolio-links">
-                  <a href="{{url_for('static',filename='assets/img/portfolio/Kitten2.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Kitten 2"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+            {% endif %}
+          {% if kucing[3] in 'Senior' %}
+             <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+              <div class="portfolio-wrap">
+                 <img src="static/assets/img/portfolio/{{kucing[6]}}" class="img-fluid" alt="">
+                 <div class="portfolio-info">
+                   <h4>{{kucing[1]}}</h4>
+                   <p>{{kucing[2]}}</p>
+                   <div class="portfolio-links">
+                    <a href="static/assets/img/portfolio/{{kucing[6]}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Kitten 1"><i class="bx bx-plus"></i></a>
+                    <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                   </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            {% endif %}
+         {% endfor %}
 
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="{{url_for('static',filename='assets/img/portfolio/adultcats2.jpg')}}" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Adult Cat 2</h4>
-                <p>Adult Cat</p>
-                <div class="portfolio-links">
-                  <a href="{{url_for('static',filename='assets/img/portfolio/adultcats2.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Adult Cats 2"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="{{url_for('static',filename='assets/img/portfolio/Adopted2.jpg')}}" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Adopted Cat 2</h4>
-                <p>Adopted Cat</p>
-                <div class="portfolio-links">
-                  <a href="{{url_for('static',filename='assets/img/portfolio/Adopted2.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Adopted Cat 2"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="{{url_for('static',filename='assets/img/portfolio/Kitten3.jpg')}}" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Kitten 3</h4>
-                <p>Kitten</p>
-                <div class="portfolio-links">
-                  <a href="{{url_for('static',filename='assets/img/portfolio/Kitten3.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Kitten 3"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="{{url_for('static',filename='assets/img/portfolio/adultcats1.jpg')}}" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Adult Cat 1</h4>
-                <p>Adult Cat</p>
-                <div class="portfolio-links">
-                  <a href="{{url_for('static',filename='assets/img/portfolio/adultcats1.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Adult Cat 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="{{url_for('static',filename='assets/img/portfolio/Adultcats3.jpg')}}" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Adult Cat 3</h4>
-                <p>Adult Cat</p>
-                <div class="portfolio-links">
-                  <a href="{{url_for('static',filename='assets/img/portfolio/adultcat3.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Adult Cat 3"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="{{url_for('static',filename='assets/img/portfolio/Adopted3.jpg')}}" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Adopted Cat 3</h4>
-                <p>Adopted Cat</p>
-                <div class="portfolio-links">
-                  <a href="{{url_for('static',filename='assets/img/portfolio/Adopted3.jpg')}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Adopted Cat 3"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
 
         </div>
 
