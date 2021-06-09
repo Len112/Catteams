@@ -34,8 +34,9 @@ def static_dir(path):
 
 @app.route("/")
 def home():
-    onecompany = Company.fetch_all()
-    return render_template("home.html", DataC=dict({'onecompany':onecompany}))
+    onecompany = Company.fetch_all() # membuat variabel untuk menyimpan row data dari database
+    listteam = Team.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+    return render_template("home.html", DataC=dict({'onecompany':onecompany}),data = dict({'listteam':listteam}))
 
 @app.route("/404")
 def page404():

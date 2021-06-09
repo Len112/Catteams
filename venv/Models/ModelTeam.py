@@ -16,7 +16,7 @@ class Team:
         # Fetch all the row from a tkategori table using fetchall() method
     def fetch_all(self):
         # execute query in mysql database tteam
-        self.cursor.execute('SELECT tteam.idteam, tteam.namateam, tteam.jeniskelamin, tteam.nomorhp, tteam.alamat, tteam.jabatan, tuser.userphoto, tuser.userid FROM `tteam` JOIN `tuser` WHERE tteam.userid = tuser.userid')
+        self.cursor.execute('SELECT tteam.idteam, tteam.namateam, tteam.jeniskelamin, tteam.nomorhp, tteam.alamat, tteam.jabatan, tuser.userphoto, tuser.userid,tuser.userabout FROM `tteam` JOIN `tuser` WHERE tteam.userid = tuser.userid')
         # return result from fetchall method
         return self.cursor.fetchall()
 
