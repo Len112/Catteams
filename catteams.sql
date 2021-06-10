@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2021 at 08:29 AM
+-- Generation Time: Jun 10, 2021 at 04:32 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.2.24
 
@@ -43,7 +43,7 @@ CREATE TABLE `tcompany` (
 --
 
 INSERT INTO `tcompany` (`idcompany`, `namecompany`, `emailcompany`, `nomorcompany`, `alamatcompany`, `photocompany`, `aboutcompany`) VALUES
-(1, 'Cat Teams', 'pratamaell112@yahoo.com', '087644628345', 'Jalam Utara selatan Nomor 5', 'yo.jpg', 'Non-Profit Company for cat lover community');
+(1, 'Cat Teams', 'pratamaell112@yahoo.com', '087644628345', 'Jalam Utara selatan Nomor 5', 'yo.jpg', 'Perusahaan Nirlaba untuk komunitas pecinta kucing');
 
 -- --------------------------------------------------------
 
@@ -55,11 +55,22 @@ CREATE TABLE `tkucing` (
   `idkucing` int(11) NOT NULL,
   `namakucing` varchar(255) NOT NULL,
   `jeniskucing` varchar(255) NOT NULL,
+  `usiakucing` varchar(10) NOT NULL,
+  `ukurankucing` varchar(10) NOT NULL,
   `jeniskelamin` varchar(255) NOT NULL,
   `photokucing` varchar(255) NOT NULL,
   `tentangkucing` text NOT NULL,
   `statuskucing` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tkucing`
+--
+
+INSERT INTO `tkucing` (`idkucing`, `namakucing`, `jeniskucing`, `usiakucing`, `ukurankucing`, `jeniskelamin`, `photokucing`, `tentangkucing`, `statuskucing`) VALUES
+(1, 'Sirec', 'Domestica', 'Kitten', 'Small', 'Perempuan', 'kucing.jpg', 'Health : not vaccinated', 'ready for adoption'),
+(2, 'Jeremy', 'Domestica', 'Adult', 'Medium', 'Laki-Laki', 'Kucing1.jpg', 'Health : not vaccinated', 'ready for adoption'),
+(3, 'Dallas', 'Domestica', 'Senior', 'Large', 'Laki-Laki', '369010003p.jpg', 'Health : Have been vaccinated', 'ready for adoption');
 
 -- --------------------------------------------------------
 
@@ -246,7 +257,7 @@ ALTER TABLE `tcompany`
 -- AUTO_INCREMENT for table `tkucing`
 --
 ALTER TABLE `tkucing`
-  MODIFY `idkucing` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idkucing` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tmessage`

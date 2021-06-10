@@ -549,6 +549,15 @@ def deletekucing(idkucing):
         # redirect ke link pegawai
         return redirect(url_for('kucing'))
 
+# Membuat route untuk menghapus data pegawai dengan idpegawai tertentu dengan metode GET
+@app.route('/catportfoliodetail/<idkucing>', methods=['GET'])
+def catportfoliodetail(idkucing):
+    onecompany = Company.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+    onekucing = Kucing.fetch_one(idkucing) # membuat variabel untuk menyimpan row data dari database
+
+    return render_template('catportfoliodetail.html', DataC=dict({'onecompany': onecompany}), DataOK=dict({'onekucing': onekucing}))
+
+
 # main untuk menjalankan app
 if __name__ == '__main__' :
     app.secret_key="EllenPratama"

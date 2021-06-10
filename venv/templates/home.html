@@ -1,26 +1,7 @@
 {% extends 'basehome.html' %}
 {% block homebody %}
 {% for company in DataC['onecompany'] %}
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top ">
-    <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="/"><img src="{{url_for('static',filename='assets/images/logo.png')}}"></a></h1>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li>
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="getstarted scrollto" href="/signin">Dashboard</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-
-    </div>
-  </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
@@ -30,10 +11,10 @@
         <div class="col-lg-6 pt-2 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
           <h1>{{company[6]}}</h1>
           <ul>
-            <li><i class="ri-check-line"></i> Very dedicated to this community</li>
-            <li><i class="ri-check-line"></i> Special for cat lovers</li>
-            <li><i class="ri-check-line"></i> Providing cat adoption</li>
-            <li><i class="ri-check-line"></i> Providing a shelter for street cats</li>
+            <li><i class="ri-check-line"></i> Sangat berdedikasi untuk komunitas ini</li>
+            <li><i class="ri-check-line"></i> Khusus untuk pecinta kucing</li>
+            <li><i class="ri-check-line"></i> Menyediakan adopsi kucing</li>
+            <li><i class="ri-check-line"></i> Menyediakan tempat perlindungan bagi kucing jalanan</li>
           </ul>
           <div class="mt-3">
             <a href="#about" class="btn-get-started scrollto">Get Started</a>
@@ -52,23 +33,26 @@
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
       <div class="container">
-
+        <div class="section-title">
+          <h2>Tentang kami</h2>
+        </div>
         <div class="row content">
           <div class="col-lg-6">
             <h2>{{company[6]}}</h2>
-            <h3>A company that was established specifically to accommodate the community of cat lovers without looking for profit</h3>
+            <h3>Perusahaan yang didirikan khusus untuk menampung
+              komunitas pecinta kucing tanpa mencari untung</h3>
           </div>
           <div class="col-lg-6 pt-4 pt-lg-0">
             <p>
-              The company that was founded on June 7, 2021 specifically to accommodate the community of cat lovers without looking for profit, was formed by our founders who are also cat lovers. Our founders are so dedicated to this company that they provide
+              Perusahaan yang berdiri pada tanggal 7 Juni 2021 khusus untuk mewadahi komunitas pecinta kucing tanpa mencari keuntungan ini, dibentuk oleh pendiri kami yang juga pecinta kucing. Pendiri kami sangat berdedikasi untuk perusahaan ini sehingga mereka menyediakan :
             </p>
             <ul>
-              <li><i class="ri-check-double-line"></i> Providing cat adoption</li>
-              <li><i class="ri-check-double-line"></i> Providing a shelter for street cats</li>
-              <li><i class="ri-check-double-line"></i> Help you with your cat problem</li>
+              <li><i class="ri-check-double-line"></i> Memberikan adopsi kucing</li>
+              <li><i class="ri-check-double-line"></i> Menyediakan tempat perlindungan bagi kucing jalanan</li>
+              <li><i class="ri-check-double-line"></i> Membantu Anda mengatasi masalah kucing Anda</li>
             </ul>
             <p class="fst-italic">
-              We really hope that this company can provide a media that is a place for cat lovers
+              Kami sangat berharap perusahaan ini dapat menyediakan media yang menjadi wadah bagi para pecinta kucing
             </p>
           </div>
         </div>
@@ -79,13 +63,15 @@
     <!-- ======= Why Us Section ======= -->
     <section id="why-us" class="why-us">
       <div class="container">
-
+        <div class="section-title">
+          <h2>Kenapa kami ?</h2>
+        </div>
         <div class="row">
 
           <div class="col-lg-4">
             <div class="box">
               <span>01</span>
-              <h4>Providing cat adoption</h4>
+              <h4>Memberikan adopsi kucing</h4>
               <p></p>
             </div>
           </div>
@@ -93,7 +79,7 @@
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box">
               <span>02</span>
-              <h4>Providing a shelter for street cats</h4>
+              <h4> Menyediakan tempat perlindungan bagi kucing jalanan</h4>
               <p></p>
             </div>
           </div>
@@ -101,7 +87,7 @@
           <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="box">
               <span>03</span>
-              <h4> Help you with your cat problem</h4>
+              <h4> Membantu Anda mengatasi masalah kucing Anda</h4>
               <p></p>
             </div>
           </div>
@@ -111,10 +97,13 @@
       </div>
     </section><!-- End Why Us Section -->
 
-    <!-- ======= Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio">
+    <!-- ======= adoption portfolio Section ======= -->
+    <section id="adoptionportfolio" class="portfolio">
       <div class="container">
-
+       <div class="section-title">
+          <h2>Portofolio kucing</h2>
+          <p>Anda Bisa melihat-lihat kucing yang ada di tempat perlindungan kami dan mengajukan pengadopsiannya</p>
+        </div>
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
@@ -137,7 +126,7 @@
                    <p>{{kucing[2]}}</p>
                    <div class="portfolio-links">
                     <a href="static/assets/img/portfolio/{{kucing[6]}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Kitten 1"><i class="bx bx-plus"></i></a>
-                    <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                    <a href="/catportfoliodetail/{{kucing[0]}}" title="More Details"><i class="bx bx-link"></i></a>
                    </div>
                   </div>
                 </div>
@@ -152,7 +141,7 @@
                    <p>{{kucing[2]}}</p>
                    <div class="portfolio-links">
                     <a href="static/assets/img/portfolio/{{kucing[6]}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Kitten 1"><i class="bx bx-plus"></i></a>
-                    <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                    <a href="/catportfoliodetail/{{kucing[0]}}" title="More Details"><i class="bx bx-link"></i></a>
                    </div>
                   </div>
                 </div>
@@ -167,7 +156,7 @@
                    <p>{{kucing[2]}}</p>
                    <div class="portfolio-links">
                     <a href="static/assets/img/portfolio/{{kucing[6]}}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Kitten 1"><i class="bx bx-plus"></i></a>
-                    <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                    <a href="/catportfoliodetail/{{kucing[0]}}" title="More Details"><i class="bx bx-link"></i></a>
                    </div>
                   </div>
                 </div>
@@ -179,7 +168,7 @@
         </div>
 
       </div>
-    </section><!-- End Portfolio Section -->
+    </section><!-- End adoption Portfolio Section -->
 
     <!-- ======= Team Section ======= -->
     <section id="team" class="team section-bg">
@@ -187,7 +176,7 @@
 
         <div class="section-title">
           <h2>Team</h2>
-          <p>Introduce our team who is the executive in this company. Our team is dedicated to managing and growing this company.</p>
+          <p>Perkenalkan tim kami yang merupakan eksekutif di perusahaan ini. Tim kami berdedikasi untuk mengelola dan mengembangkan perusahaan ini</p>
         </div>
 
         <div class="row">
@@ -233,7 +222,7 @@
 
         <div class="section-title">
           <h2>Contact</h2>
-          <p> You can contact us by email, telephone and to our address. You can also send us a message by filling out the form below, the message will be replied to your email.</p>
+          <p>Anda dapat menghubungi kami melalui email, telepon dan ke alamat kami. Anda juga dapat mengirimkan pesan kepada kami dengan mengisi form di bawah ini, pesan akan dibalas ke email Anda.</p>
         </div>
 
         <div class="row">
@@ -244,21 +233,21 @@
               <div class="col-md-12">
                 <div class="info-box">
                   <i class="bx bx-map"></i>
-                  <h3>Our Address</h3>
+                  <h3>Alamat kami</h3>
                   <p>{{company[4]}}</p>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="info-box mt-4">
                   <i class="bx bx-envelope"></i>
-                  <h3>Email Us</h3>
+                  <h3>Email Kami</h3>
                   <p>{{company[2]}}</p>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="info-box mt-4">
                   <i class="bx bx-phone-call"></i>
-                  <h3>Call Us</h3>
+                  <h3>Telepon Kami</h3>
                   <p>{{company[3]}}</p>
                 </div>
               </div>
@@ -304,74 +293,6 @@
 
   </main><!-- End #main -->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
-
-          <div class="col-lg-4 col-md-6 footer-contact">
-            <h3>CatTeams.co</h3>
-            <p>
-              {{company[4]}}<br>
-              <strong>Phone:</strong> {{company[3]}}<br>
-              <strong>Email:</strong> {{company[2]}}<br>
-            </p>
-          </div>
-
-          <div class="col-lg-4 col-md-6 footer-links">
-            <h4>Useful Links</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#hero">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#portofolio">Portofolio</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#team">Team</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#contact">Contact</a></li>
-            </ul>
-          </div>
-
-
-          <div class="col-lg-4 col-md-6 footer-newsletter" id="Subscribe">
-            <h4>Join Our Newsletter</h4>
-            <p>Anda akan dikirimkan notifikasi kabar terbaru dari kami</p>
-            <form action="{{url_for('subscribe')}}" method="post">
-              <input type="email" name="email" required><input type="submit" value="Subscribe">
-            </form>
-             <div class="my-3">
-                {% with messages = get_flashed_messages() %}
-                   {% if messages %}
-                     {% for message in messages %}
-                       <div class="alert alert-success alert" role="alert">
-                         {{message}}
-                       </div>
-                     {% endfor %}
-                   {% endif %}
-                {% endwith %}
-              </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="container d-md-flex py-4">
-
-      <div class="me-md-auto text-center text-md-start">
-        <div class="copyright">
-          &copy; Copyright <strong><span>CatTeams.co</span></strong>. All Rights Reserved
-        </div>
-
-      </div>
-      <div class="social-links text-center text-md-right pt-3 pt-md-0">
-        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-      </div>
-    </div>
-  </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
