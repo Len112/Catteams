@@ -17,7 +17,17 @@
 
       </div>
     </section><!-- End Breadcrumbs -->
-
+     <div class="my-3">
+                {% with messages = get_flashed_messages() %}
+                       {% if messages %}
+                        {% for message in messages %}
+                          <div class="alert alert-success alert" role="alert">
+                              {{message}}
+                          </div>
+                        {% endfor %}
+                       {% endif %}
+                     {% endwith %}
+      </div>
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
       <div class="container">

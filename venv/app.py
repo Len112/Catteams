@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request, flash, session#import modul-modul yang disediakan flask
-from Models import ModelTeam, ModelUser, ModelMessage, ModelSubscribe, ModelCompany, ModelKucing
+from Models import ModelTeam, ModelUser, ModelMessage, ModelSubscribe, ModelCompany, ModelKucing, ModelAdopsi
 from datetime import datetime
 import os, time
 from werkzeug.utils import secure_filename
@@ -18,7 +18,8 @@ User = ModelUser.User()#membuat objek baru dari ModelUser
 SendMessage = ModelMessage.Message()#membuat objek baru dari ModelMessage
 Subscribe = ModelSubscribe.Subscribe()#membuat objek baru dari ModelSubscribe
 Company = ModelCompany.Company()#membuat objek baru dari ModelCompany
-Kucing = ModelKucing.Kucing()#membuat objek baru dariModelCompany
+Kucing = ModelKucing.Kucing()#membuat objek baru dari ModelKucing
+Adopsi = ModelAdopsi.Adopsi()#membuat objek baru dariModelAdopsi
 
 app.config['MAIL_SERVER']= 'smtp.gmail.com'
 app.config['MAIL_PORT']= 587
@@ -567,7 +568,20 @@ def ajukanadopsi(idkucing):
         return render_template('Adoptionsubmitionform.html', DataC=dict({'onecompany': onecompany}),
                                DataOK=dict({'onekucing': onekucing}))
     if request.method == 'POST':
-        return redirect(url_for('catportfoliodetail'))
+        new_adopsi = {
+            'idadopsi' : request.form['idadopsi'],
+            'namapengadopsi': request.form['namapengadopsi'],
+            'emailpengadopsi': request.form['emailpengadopsi'],
+            'teleponpengadopsi': request.form['teleponpengadopsi'],
+            'alamatpengadopsi': request.form['alamatpengadopsi'],
+            'jeniskelamin': request.form['jeniskelamin'],
+            'alasanadopsi': request.form['alasanadopsi'],
+            'statusadopsi': "Proses Pengajuan",
+            'idkucing': request.form['idkucing'],
+        }
+        Adopsi.create(adopsi=new_adopsi)
+        flash("Berhasil mengajukan adopsi")
+        return redirect(url_for('catportfoliodetail', idkucing=idkucing))
 
 
 # main untuk menjalankan app

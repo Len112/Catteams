@@ -3,7 +3,7 @@ import mysql.connector
 
 
 
-class Kucing:
+class Adopsi:
 
 
     def __init__(self):
@@ -28,10 +28,10 @@ class Kucing:
         return self.cursor.fetchall()
 
         #insert data into tkucing table
-    def create(self, kucing=dict({})):
+    def create(self, adopsi=dict({})):
         # execute query insert in mysql database tpegawai
-        self.cursor.execute('INSERT INTO tkucing(namakucing,jeniskucing,usiakucing,ukurankucing,jeniskelamin,photokucing,tentangkucing,statuskucing) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)',
-                            (kucing['namakucing'],kucing['jeniskucing'],kucing['usiakucing'],kucing['ukurankucing'], kucing['jeniskelamin'], kucing['photokucing'], kucing['tentangkucing'], kucing['statuskucing']))
+        self.cursor.execute('INSERT INTO tpengadopsi(idadopsi,namapengadopsi,emailpengadopsi,teleponpengadopsi,jeniskelamin,alamatpengadopsi,alasanadopsi,statusadopsi,idkucing) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+                            (adopsi['idadopsi'],adopsi['namapengadopsi'],adopsi['emailpengadopsi'],adopsi['teleponpengadopsi'],adopsi['jeniskelamin'],adopsi['alasanadopsi'],adopsi['alasanadopsi'],adopsi['statusadopsi'],adopsi['idkucing']))
         # Commit your changes in the database
         self.conn.commit()
 
