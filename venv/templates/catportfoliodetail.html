@@ -43,21 +43,32 @@
             <div class="portfolio-info">
               <h3>Cat information</h3>
               <ul>
-                <li><strong>Cat Breed</strong>: {{kucing[2]}}</li>
-                <li><strong>Name </strong>: {{kucing[1]}}</li>
-                <li><strong>Age</strong>: {{kucing[3]}}</li>
-                <li><strong>Size</strong>: {{kucing[4]}}</li>
-                <li><strong>Gender</strong>:{{kucing[5]}}</li>
+                <li><strong>Jenis Kucing</strong>: {{kucing[2]}}</li>
+                <li><strong>Nama Kucing </strong>: {{kucing[1]}}</li>
+                <li><strong>Umur Kucing</strong>: {{kucing[3]}}</li>
+                <li><strong>Ukuran Kucing</strong>: {{kucing[4]}}</li>
+                <li><strong>Jenis Kelamin</strong>:{{kucing[5]}}</li>
               </ul>
             </div>
             <div class="portfolio-description">
-              <h2>About Cat</h2>
+              <h2>Tentang Kucing</h2>
               <p>
                 {{kucing[7]}}
               </p>
             </div>
+            <div class="portfolio-description">
+              <h2>Status Kucing</h2>
+              <p>
+                {{kucing[8]}}
+              </p>
+            </div>
           </div>
-          <div class="text-center"><button>Ajukan Adopsi</button></div>
+          {% if kucing[8] == "ready for adoption"%}
+          <div class="text-center"><a href="/ajukanadopsi/{{kucing[0]}}#ajukanadopsi" role="button" class="buttonadopt" >Ajukan Adopsi</a></div>
+           {% else %}
+          <div class="text-center"><a href="/ajukanadopsi/{{kucing[0]}}#ajukanadopsi" role="button" class="buttonadopt disabled" aria-disabled="true">Ajukan Adopsi</a></div>
+          {% endif %}
+
         </div>
 
       </div>

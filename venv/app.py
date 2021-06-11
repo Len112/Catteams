@@ -557,6 +557,18 @@ def catportfoliodetail(idkucing):
 
     return render_template('catportfoliodetail.html', DataC=dict({'onecompany': onecompany}), DataOK=dict({'onekucing': onekucing}))
 
+# Membuat route untuk menghapus data pegawai dengan idpegawai tertentu dengan metode GET
+@app.route('/ajukanadopsi/<idkucing>', methods=['GET','POST'])
+def ajukanadopsi(idkucing):
+    if request.method == 'GET':
+        onecompany = Company.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+        onekucing = Kucing.fetch_one(idkucing)  # membuat variabel untuk menyimpan row data dari database
+
+        return render_template('Adoptionsubmitionform.html', DataC=dict({'onecompany': onecompany}),
+                               DataOK=dict({'onekucing': onekucing}))
+    if request.method == 'POST':
+        return redirect(url_for('catportfoliodetail'))
+
 
 # main untuk menjalankan app
 if __name__ == '__main__' :
