@@ -1,0 +1,442 @@
+{% extends 'index.html' %}
+{% block team %} active {% endblock %}
+{% block fotonavbar %} {% for user in DataU['oneteam'] %} src="static/assets/images/faces/{{user[6]}}" {% endfor %}{% endblock %}
+{% block namanavbar %} {% for user in DataU['oneteam'] %} {{user[1]}} {% endfor %}{% endblock %}
+{% block fotosidebar %} {% for user in DataU['oneteam'] %} src="static/assets/images/faces/{{user[6]}}" {% endfor %}{% endblock %}
+{% block namasidebar %} {% for user in DataU['oneteam'] %} {{user[1]}} {% endfor %}{% endblock %}
+{% block aksessidebar %} {% for user in DataU['oneteam'] %} {{user[5]}} {% endfor %}{% endblock %}
+{% block newmessage %}
+ {% for new in DataNew['newmessage'] %}
+  <div class="dropdown-divider"></div>
+   <a class="dropdown-item preview-item" href="/message">
+    <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+     <h6 class="preview-subject ellipsis mb-1 font-weight-normal">{{new[1]}} send you a message</h6>
+     <p> subject : {{new[3]}}</p>
+    </div>
+   </a>
+ {% endfor %}
+{% endblock %}
+{% block content %}
+  <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Daftar Pengajuan Adopsi </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#tabelKucing">Tables</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Daftar Pengajuan Adopsi</li>
+                </ol>
+              </nav>
+            </div>
+
+              <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Pengajuan Adopsi</h4>
+                    <p class="card-description">Setujui atau Tolak <code> Pengajuan adopsi </code>
+                    </p>
+                     {% with messages = get_flashed_messages() %}
+                       {% if messages %}
+                        {% for message in messages %}
+                          <div class="alert alert-success alert" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                  <span aria-hidden="true" class="mdi mdi-close"></span>
+                              </button>
+                              {{message}}
+                          </div>
+                        {% endfor %}
+                       {% endif %}
+                     {% endwith %}
+                    <table class="table table-hover" id="tabelKucing">
+                      <thead class="text-center">
+                        <tr>
+                            <th>Id Adopsi</th>
+                            <th>Kucing yang ingin adopsi</th>
+                            <th>Nama Pengadopsi</th>
+                            <th>Email Pengadopsi</th>
+                            <th>Nomor Pengadopsi</th>
+                            <th>Status Adopsi</th>
+                            <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                         <!-- Mengambil data dari database tpengadopsi akan mengulang sesuai banyak data di tabel -->
+                       {% for adopsi in data['listadopsi'] %}
+                        {% if adopsi[8] =="Proses Pengajuan" %}
+                          <td>{{ adopsi[0] }}</td>
+                          <td class="py-1">
+                            <img src="static/assets/img/portfolio/{{adopsi[12]}}"  alt="image"/>
+                              {{ adopsi[9] }}
+                              {{ adopsi[10] }}
+                              {{ adopsi[11] }}
+                          </td>
+                          <td>{{ adopsi[2] }}</td>
+                          <td>{{ adopsi[3] }}</td>
+                          <td>{{ adopsi[4] }}</td>
+                          <td>{{ adopsi[8] }}</td>
+                          <td class="text-center">
+                           <div>
+                              <a class="btn btn-gradient-warning btn-xs" href="" data-toggle="modal" data-target="#detailadopsi{{adopsi[0]}}">
+                               Detail
+                              </a>
+                           </div>
+                          </td>
+                        </tr>
+                        <!-- Detail Info Modal -->
+                         <div id="detailadopsi{{adopsi[0]}}" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+                           <div class="modal-content">
+                             <div class="modal-header">
+                               <h4 class="modal-title">DETAIL PENGAJUAN ADOPSI</h4>
+                             </div>
+                               <div class="modal-body">
+                                 <form action="{{ url_for('adopsi') }}"  method="POST">
+                                   <div class="form-group">
+                                     <label>ID Adopsi:</label>
+                                     <input type="text" class="form-control" name="idadopsi" value="{{adopsi[0]}}" readonly>
+                                   </div>
+                                   <p style="text-align:center">------------------------------------Kucing yang diadopsi------------------------------------</p>
+                                   <p><img id="" width="100" src="static/assets/img/portfolio/{{adopsi[12]}}"/></p>
+                                   <div class="form-group">
+                                      <label>ID Kucing:</label>
+                                      <input type="text" class="form-control" name="idkucing" id="" maxlength="30" required value="{{adopsi[9]}}" readonly>
+                                      <label>Nama Kucing:</label>
+                                      <input type="text" class="form-control" name="namakucing" id="" maxlength="30" required value="{{adopsi[10]}}" readonly>
+                                      <label>Jenis Kucing:</label>
+                                      <input type="text" class="form-control" name="jeniskucing" id="" maxlength="30" required value="{{adopsi[11]}}" readonly>
+                                   </div>
+                                   <p style="text-align: center">-------------------------------------------Pengadopsi-------------------------------------------</p>
+                                   <div class="form-group">
+                                      <label>Nomor Identitas Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="noidentitaspengadopsi" id="" maxlength="30" required value="{{adopsi[1]}}" readonly>
+                                      <label>Nama Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="namapengadopsi" value="{{adopsi[2]}}" readonly>
+                                      <label>Email Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="emailpengadopsi" id="" maxlength="30" required value="{{adopsi[3]}}" readonly>
+                                      <label>Telepon Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="noidentitaspengadopsi" id="" maxlength="30" required value="{{adopsi[4]}}" readonly>
+                                      <label>Jenis Kelamin:</label>
+                                      <input type="text" class="form-control" name="jeniskelamin" id="" maxlength="30" required value="{{adopsi[5]}}" readonly>
+                                      <label>Alamat Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="alamatpengadopsi" id="" maxlength="30" required value="{{adopsi[6]}}" readonly>
+                                   </div>
+                                   <div class="form-group">
+                                      <label>Alasan ingin mengadopsi:</label>
+                                      <input type="text" class="form-control" name="alasanadopsi" id="" maxlength="30" required value="{{adopsi[7]}}" readonly>
+                                   </div>
+                                   <p style="text-align: center">--------------------------------------------------------------------------------------------------------</p>
+                                   <div class="form-group">
+                                      <label>Status Adopsi:</label>
+                                      <input type="text" class="form-control" name="statusadopsiold" id="" maxlength="30" required value="{{adopsi[8]}}" readonly>
+                                   </div>
+                                    <div class="form-group">
+                                       <p id="p">Proses Status Adopsi:</p>
+                                        <input type="radio" id="Small" name="statusadopsi" value="Adopsi diterima" required>
+                                        <label for="TerimaPengajuan"><strong>Terima Pengajuan</strong></label>
+                                        <label for="TolakPengajuan"  class="float-right"><strong>Tolak Pengajuan</strong></label>
+                                        <input type="radio" class="float-right" id="Medium" name="statusadopsi" value="Adopsi ditolak" required>
+                                    </div>
+                                   <div>
+                                    <div class="form-group">
+                                      <button class="btn btn-gradient-primary" type="submit">Proses Pengajuan</button>
+                                    </div>
+                                   </div>
+                                 </form>
+                               </div>
+                             <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                             </div>
+                            </div>
+                           </div>
+                         </div>
+                          {%endif%}
+                          {%endfor%}
+                        <!-- End detail adopsi Info Modal -->
+                      </tbody>
+                    </table>
+                   </div>
+                </div>
+              </div>
+        </div>
+
+   <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title">Pengajuan Adopsi yang sudah diproses</h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#tabelKucing">Tables</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Pengajuan Adopsi yang sudah diproses</li>
+                </ol>
+              </nav>
+            </div>
+                <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Pengajuan Adopsi yang sudah diproses</h4>
+                    <p class="card-description">diSetujui atau diTolak <code> Menunggu verifikasi data pengadopsi jika disetujui </code>
+                    </p>
+                     {% with messages = get_flashed_messages() %}
+                       {% if messages %}
+                        {% for message in messages %}
+                          <div class="alert alert-success alert" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                  <span aria-hidden="true" class="mdi mdi-close"></span>
+                              </button>
+                              {{message}}
+                          </div>
+                        {% endfor %}
+                       {% endif %}
+                     {% endwith %}
+                    <table class="table table-hover" id="tabelKucing">
+                      <thead class="text-center">
+                        <tr>
+                            <th>Id Adopsi</th>
+                            <th>Kucing yang ingin adopsi</th>
+                            <th>Nama Pengadopsi</th>
+                            <th>Email Pengadopsi</th>
+                            <th>Nomor Pengadopsi</th>
+                            <th>Status Adopsi</th>
+                            <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                         <!-- Mengambil data dari database tpengadopsi akan mengulang sesuai banyak data di tabel -->
+                       {% for adopsi in data['listadopsi'] %}
+                        {% if adopsi[8] == "Adopsi diterima" or adopsi[8] == "Adopsi ditolak"  %}
+                          <td>{{ adopsi[0] }}</td>
+                          <td class="py-1">
+                            <img src="static/assets/img/portfolio/{{adopsi[12]}}"  alt="image"/>
+                              {{ adopsi[9] }}
+                              {{ adopsi[10] }}
+                              {{ adopsi[11] }}
+                          </td>
+                          <td>{{ adopsi[2] }}</td>
+                          <td>{{ adopsi[3] }}</td>
+                          <td>{{ adopsi[4] }}</td>
+                          <td>{{ adopsi[8] }}</td>
+                          <td class="text-center">
+                           <div>
+                              <a class="btn btn-gradient-warning btn-xs" href="" data-toggle="modal" data-target="#detailadopsi{{adopsi[0]}}">
+                               Detail
+                              </a>
+                           </div>
+                          </td>
+                        </tr>
+                        <!-- Detail Info Modal -->
+                         <div id="detailadopsi{{adopsi[0]}}" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+                           <div class="modal-content">
+                             <div class="modal-header">
+                               <h4 class="modal-title">DETAIL PENGAJUAN ADOPSI</h4>
+                             </div>
+                               <div class="modal-body">
+                                 <form action="{{ url_for('adopsi') }}"  method="POST">
+                                   <div class="form-group">
+                                     <label>ID Adopsi:</label>
+                                     <input type="text" class="form-control" name="idadopsi" value="{{adopsi[0]}}" readonly>
+                                   </div>
+                                   <p style="text-align:center">------------------------------------Kucing yang diadopsi------------------------------------</p>
+                                   <p><img id="" width="100" src="static/assets/img/portfolio/{{adopsi[12]}}"/></p>
+                                   <div class="form-group">
+                                      <label>ID Kucing:</label>
+                                      <input type="text" class="form-control" name="idkucing" id="" maxlength="30" required value="{{adopsi[9]}}" readonly>
+                                      <label>Nama Kucing:</label>
+                                      <input type="text" class="form-control" name="namakucing" id="" maxlength="30" required value="{{adopsi[10]}}" readonly>
+                                      <label>Jenis Kucing:</label>
+                                      <input type="text" class="form-control" name="jeniskucing" id="" maxlength="30" required value="{{adopsi[11]}}" readonly>
+                                   </div>
+                                   <p style="text-align: center">-------------------------------------------Pengadopsi-------------------------------------------</p>
+                                   <div class="form-group">
+                                      <label>Nomor Identitas Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="noidentitaspengadopsi" id="" maxlength="30" required value="{{adopsi[1]}}" readonly>
+                                      <label>Nama Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="namapengadopsi" value="{{adopsi[2]}}" readonly>
+                                      <label>Email Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="emailpengadopsi" id="" maxlength="30" required value="{{adopsi[3]}}" readonly>
+                                      <label>Telepon Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="noidentitaspengadopsi" id="" maxlength="30" required value="{{adopsi[4]}}" readonly>
+                                      <label>Jenis Kelamin:</label>
+                                      <input type="text" class="form-control" name="jeniskelamin" id="" maxlength="30" required value="{{adopsi[5]}}" readonly>
+                                      <label>Alamat Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="alamatpengadopsi" id="" maxlength="30" required value="{{adopsi[6]}}" readonly>
+                                   </div>
+                                   <div class="form-group">
+                                      <label>Alasan ingin mengadopsi:</label>
+                                      <input type="text" class="form-control" name="alasanadopsi" id="" maxlength="30" required value="{{adopsi[7]}}" readonly>
+                                   </div>
+                                   <p style="text-align: center">--------------------------------------------------------------------------------------------------------</p>
+                                   <div class="form-group">
+                                      <label>Status Adopsi:</label>
+                                      <input type="text" class="form-control" name="statusadopsiold" id="" maxlength="30" required value="{{adopsi[8]}}" readonly>
+                                       <input type="text" class="form-control" name="statusadopsi" id="" maxlength="30" required value="" hidden readonly>
+                                   </div>
+                                    {% if adopsi[8]!="Adopsi ditolak" %}
+                                    <div class="form-group">
+                                       <p id="p">Verifikasi data pengadopsi:</p>
+                                        <input type="radio" id="Small" name="verifikasidata" value="lengkap" required>
+                                        <label for="TerimaPengajuan"><strong>Lengkap data benar</strong></label>
+                                        <label for="TolakPengajuan"  class="float-right"><strong>Tidak lengkap dan benar</strong></label>
+                                        <input type="radio" class="float-right" id="Medium" name="verifikasidata" value="tidaklengkap" required>
+                                    </div>
+                                   <div>
+                                    <div class="form-group">
+                                      <button class="btn btn-gradient-primary" type="submit">Verifikasi Adopsi</button>
+                                    </div>
+                                   </div>
+                                  {% endif %}
+                                 </form>
+                               </div>
+                             <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                             </div>
+                            </div>
+                           </div>
+                         </div>
+                          {%endif%}
+                          {%endfor%}
+                        <!-- End detail adopsi Info Modal -->
+                      </tbody>
+                    </table>
+                   </div>
+                </div>
+              </div>
+
+
+          </div>
+          <!-- content-wrapper ends -->
+
+<div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title">Pengajuan Adopsi yang sudah diverifikasi datanya</h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#tabelKucing">Tables</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Pengajuan Adopsi yang sudah diverifikasi</li>
+                </ol>
+              </nav>
+            </div>
+                <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Pengajuan Adopsi yang sudah diverifikasi</h4>
+                    <p class="card-description">Berhasil atau Gagal <code> Pengadopsian </code>
+                    </p>
+                     {% with messages = get_flashed_messages() %}
+                       {% if messages %}
+                        {% for message in messages %}
+                          <div class="alert alert-success alert" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                  <span aria-hidden="true" class="mdi mdi-close"></span>
+                              </button>
+                              {{message}}
+                          </div>
+                        {% endfor %}
+                       {% endif %}
+                     {% endwith %}
+                    <table class="table table-hover" id="tabelKucing">
+                      <thead class="text-center">
+                        <tr>
+                            <th>Id Adopsi</th>
+                            <th>Kucing yang ingin adopsi</th>
+                            <th>Nama Pengadopsi</th>
+                            <th>Email Pengadopsi</th>
+                            <th>Nomor Pengadopsi</th>
+                            <th>Status Adopsi</th>
+                            <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                         <!-- Mengambil data dari database tpengadopsi akan mengulang sesuai banyak data di tabel -->
+                       {% for adopsi in data['listadopsi'] %}
+                        {% if adopsi[8] =="Adopsi Gagal" or adopsi[8]=="Adopsi Berhasil" %}
+                          <td>{{ adopsi[0] }}</td>
+                          <td class="py-1">
+                            <img src="static/assets/img/portfolio/{{adopsi[12]}}"  alt="image"/>
+                              {{ adopsi[9] }}
+                              {{ adopsi[10] }}
+                              {{ adopsi[11] }}
+                          </td>
+                          <td>{{ adopsi[2] }}</td>
+                          <td>{{ adopsi[3] }}</td>
+                          <td>{{ adopsi[4] }}</td>
+                          <td>{{ adopsi[8] }}</td>
+                          <td class="text-center">
+                           <div>
+                              <a class="btn btn-gradient-warning btn-xs" href="" data-toggle="modal" data-target="#detailadopsi{{adopsi[0]}}">
+                               Detail
+                              </a>
+                           </div>
+                          </td>
+                        </tr>
+                        <!-- Detail Info Modal -->
+                         <div id="detailadopsi{{adopsi[0]}}" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+                           <div class="modal-content">
+                             <div class="modal-header">
+                               <h4 class="modal-title">DETAIL PENGAJUAN ADOPSI</h4>
+                             </div>
+                               <div class="modal-body">
+                                 <form action="{{ url_for('adopsi') }}"  method="POST">
+                                   <div class="form-group">
+                                     <label>ID Adopsi:</label>
+                                     <input type="text" class="form-control" name="idadopsi" value="{{adopsi[0]}}" readonly>
+                                   </div>
+                                   <p style="text-align:center">------------------------------------Kucing yang diadopsi------------------------------------</p>
+                                   <p><img id="" width="100" src="static/assets/img/portfolio/{{adopsi[12]}}"/></p>
+                                   <div class="form-group">
+                                      <label>ID Kucing:</label>
+                                      <input type="text" class="form-control" name="idkucing" id="" maxlength="30" required value="{{adopsi[9]}}" readonly>
+                                      <label>Nama Kucing:</label>
+                                      <input type="text" class="form-control" name="namakucing" id="" maxlength="30" required value="{{adopsi[10]}}" readonly>
+                                      <label>Jenis Kucing:</label>
+                                      <input type="text" class="form-control" name="jeniskucing" id="" maxlength="30" required value="{{adopsi[11]}}" readonly>
+                                   </div>
+                                   <p style="text-align: center">-------------------------------------------Pengadopsi-------------------------------------------</p>
+                                   <div class="form-group">
+                                      <label>Nomor Identitas Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="noidentitaspengadopsi" id="" maxlength="30" required value="{{adopsi[1]}}" readonly>
+                                      <label>Nama Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="namapengadopsi" value="{{adopsi[2]}}" readonly>
+                                      <label>Email Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="emailpengadopsi" id="" maxlength="30" required value="{{adopsi[3]}}" readonly>
+                                      <label>Telepon Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="noidentitaspengadopsi" id="" maxlength="30" required value="{{adopsi[4]}}" readonly>
+                                      <label>Jenis Kelamin:</label>
+                                      <input type="text" class="form-control" name="jeniskelamin" id="" maxlength="30" required value="{{adopsi[5]}}" readonly>
+                                      <label>Alamat Pengadopsi:</label>
+                                      <input type="text" class="form-control" name="alamatpengadopsi" id="" maxlength="30" required value="{{adopsi[6]}}" readonly>
+                                   </div>
+                                   <div class="form-group">
+                                      <label>Alasan ingin mengadopsi:</label>
+                                      <input type="text" class="form-control" name="alasanadopsi" id="" maxlength="30" required value="{{adopsi[7]}}" readonly>
+                                   </div>
+                                   <p style="text-align: center">--------------------------------------------------------------------------------------------------------</p>
+                                   <div class="form-group">
+                                      <label>Status Adopsi:</label>
+                                      <input type="text" class="form-control" name="statusadopsiold" id="" maxlength="30" required value="{{adopsi[8]}}" readonly>
+                                   </div>
+                                 </form>
+                               </div>
+                             <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                             </div>
+                            </div>
+                           </div>
+                         </div>
+                          {%endif%}
+                          {%endfor%}
+                        <!-- End detail adopsi Info Modal -->
+                      </tbody>
+                    </table>
+                   </div>
+                </div>
+              </div>
+
+
+          </div>
+          <!-- content-wrapper ends -->
+
+
+{% endblock %}

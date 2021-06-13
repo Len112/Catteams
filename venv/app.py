@@ -1,13 +1,15 @@
 from flask import Flask, render_template, url_for, redirect, request, flash, session#import modul-modul yang disediakan flask
 from Models import ModelTeam, ModelUser, ModelMessage, ModelSubscribe, ModelCompany, ModelKucing, ModelAdopsi
 from datetime import datetime
+import mysql.connector
 import os, time
 from werkzeug.utils import secure_filename
 from werkzeug.security import  generate_password_hash, check_password_hash
+from werkzeug.serving import run_simple
 from flask_mail import Mail, Message
 
 
-
+con = mysql.connector.connect(user='root', password='',database='catteams', host='localhost')
 app = Flask(__name__, static_url_path='/static')
 app.config["UPLOAD_FOLDER"]="./static/assets/images/faces" #path untuk upload folder
 app.config["UPLOAD_FOLDER2"]="./static/assets/img/portfolio" #path untuk upload folder
@@ -497,7 +499,7 @@ def insertkucing():
                 'jeniskelamin': request.form['jeniskelamin'],
                 'photokucing': photoname,
                 'tentangkucing': request.form['tentangkucing'],
-                'statuskucing': "ready for adoption",
+                'statuskucing': "Siap di Adopsi",
             }
             Kucing.create(kucing=new_kucing)
             flash("Data berhasil ditambahkan")
@@ -530,7 +532,7 @@ def updatekucing():
                 'jeniskelamin': request.form['jeniskelamin'],
                 'photokucing': photoname,
                 'tentangkucing': request.form['tentangkucing'],
-                'statuskucing': "ready for adoption",
+                'statuskucing': "Siap di Adopsi",
                 'idkucing': request.form['idkucing'],
             }
             Kucing.update(kucing=new_kucing)
@@ -565,16 +567,18 @@ def ajukanadopsi(idkucing):
         onecompany = Company.fetch_all()  # membuat variabel untuk menyimpan row data dari database
         onekucing = Kucing.fetch_one(idkucing)  # membuat variabel untuk menyimpan row data dari database
 
-        return render_template('Adoptionsubmitionform.html', DataC=dict({'onecompany': onecompany}),
+        return render_template('adoptionsubmitionform.html', DataC=dict({'onecompany': onecompany}),
                                DataOK=dict({'onekucing': onekucing}))
     if request.method == 'POST':
+        listkucing = Kucing.fetch_all()  # membuat variabel untuk menyimpan row data dari database
         new_adopsi = {
             'idadopsi' : request.form['idadopsi'],
+            'noidentitaspengadopsi': request.form['noidentitaspengadopsi'],
             'namapengadopsi': request.form['namapengadopsi'],
             'emailpengadopsi': request.form['emailpengadopsi'],
             'teleponpengadopsi': request.form['teleponpengadopsi'],
-            'alamatpengadopsi': request.form['alamatpengadopsi'],
             'jeniskelamin': request.form['jeniskelamin'],
+            'alamatpengadopsi': request.form['alamatpengadopsi'],
             'alasanadopsi': request.form['alasanadopsi'],
             'statusadopsi': "Proses Pengajuan",
             'idkucing': request.form['idkucing'],
@@ -582,6 +586,50 @@ def ajukanadopsi(idkucing):
         Adopsi.create(adopsi=new_adopsi)
         flash("Berhasil mengajukan adopsi")
         return redirect(url_for('catportfoliodetail', idkucing=idkucing))
+
+@app.route("/adopsi", methods=['GET','POST','POST1'])
+def adopsi():
+    if not session.get("userid"):  # Jika session tidak mendapat userid (tidak sign in)
+        return redirect('404')  # akan menuju halaman error
+    else:
+        if request.method == 'GET':
+            oneteam = Team.fetch_one(session["userid"])
+            listadopsi = Adopsi.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+            idteam = Team.idteam()  # membuat variabel untuk menyimpan row data dari database
+            newmessage = SendMessage.fetch_new3message()
+            # merender template pegawai (view) dan memasukan data yang dari variabel listpegawai
+            return render_template("adoption.html", data=dict({'listadopsi': listadopsi}),
+                                   dataID=idteam, DataU=dict({'oneteam': oneteam}),
+                                   DataNew=dict({'newmessage': newmessage}))
+        if request.method == 'POST':
+            if request.form['statusadopsi'] !="":
+                new_adopsi = {
+                    'idkucing': request.form['idkucing'],
+                    'statusadopsi': request.form['statusadopsi']
+                }
+                Adopsi.update(adopsi=new_adopsi)
+                if request.form['statusadopsi'] =="Adopsi ditolak":
+                    Kucing.updatestatus(kucing=({'idkucing': request.form['idkucing'],
+                    'statuskucing': "Siap di Adopsi"}))
+                return redirect(url_for('adopsi'))
+            if request.form['verifikasidata'] =="lengkap":
+                new_adopsi = {
+                    'idkucing': request.form['idkucing'],
+                    'statusadopsi': "Adopsi Berhasil"
+                }
+                Adopsi.update(adopsi=new_adopsi)
+                Kucing.updatestatus(kucing=({'idkucing': request.form['idkucing'],
+                                                 'statuskucing': "Telah di Adopsi"}))
+                return redirect(url_for('adopsi'))
+            if request.form['verifikasidata'] =="tidaklengkap":
+                new_adopsi = {
+                    'idkucing': request.form['idkucing'],
+                    'statusadopsi': "Adopsi Gagal"
+                }
+                Kucing.updatestatus(kucing=({'idkucing': request.form['idkucing'],
+                                             'statuskucing': "Siap di Adopsi"}))
+                Adopsi.update(adopsi=new_adopsi)
+                return redirect(url_for('adopsi'))
 
 
 # main untuk menjalankan app

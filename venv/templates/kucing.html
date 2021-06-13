@@ -77,14 +77,34 @@
                           <td>{{ kucing[8] }}</td>
                           <td class="text-center">
                            <div>
+                            {% if kucing[8]=='Siap di Adopsi' %}
                               <a class="btn btn-gradient-warning btn-xs" href="/updatekucing/{{kucing[0]}}" data-toggle="modal" data-target="#updatekucing{{kucing[0] }}">
                                Edit
                               </a>
+                            {% elif kucing[8]=='Proses Adopsi' %}
+                               <a class="btn btn-gradient-warning btn-xs" href=""  onclick="return alert('Anda tidak dizinkan mengedit data kucing ini karena kucing ini sedang dalam proses adopsi') ">
+                               Edit
+                              </a>
+                            {% else %}
+                               <a class="btn btn-gradient-warning btn-xs" href=""  onclick="return alert('Anda tidak dizinkan mengedit data kucing ini karena kucing ini telah diadopsi dan data perlu disimpan') ">
+                               Edit
+                              </a>
+                            {% endif %}
                            </div><br>
                            <div>
+                            {% if kucing[8]=='Siap di Adopsi' %}
                             <a class="btn btn-gradient-danger btn-xs" href="/deletekucing/{{kucing[0]}}" onclick="return confirm('Anda yakin ingin menghapus ?')">
                               Hapus
                             </a>
+                            {% elif kucing[8]=='Proses Adopsi' %}
+                            <a class="btn btn-gradient-danger btn-xs" href="" onclick="return alert('Anda tidak dizinkan menghapus data kucing ini karena kucing ini sedang dalam proses adopsi')">
+                              Hapus
+                            </a>
+                             {% else %}
+                            <a class="btn btn-gradient-danger btn-xs" href="" onclick="return alert('Anda tidak dizinkan menghapus data kucing ini karena kucing ini telah diadopsi dan data perlu disimpan')">
+                              Hapus
+                            </a>
+                            {% endif %}
                            </div>
                           </td>
                         </tr>

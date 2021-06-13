@@ -65,28 +65,33 @@
       <div class="container">
         <div class="row gy-4">
           <form action="/ajukanadopsi/{{kucing[0]}}" method="post" class="php-email-form">
-              <div class="form-group mt-3">
-                <label>ID Adopsi</label>
-
-                <input type="text" class="form-control" name="idadopsi" id="idadopsi" placeholder="id adopsi" readonly value="">
+              <div class="row form-group mt-3">
+                <div class="col-md-6 form-group">
+                 <label>ID Adopsi</label>
+                  <input type="text" class="form-control" name="idadopsi" id="idadopsi" placeholder="id adopsi" readonly value="">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label></label>
+                  <input type="text" class="form-control" name="noidentitaspengadopsi" id="noidentitaspengadopsi" placeholder="Nomor Identitas Anda">
+                </div>
               </div>
               <div class="row form-group mt-3">
                 <div class="col-md-4 form-group">
-                  <input type="text" name="namapengadopsi" class="form-control" id="namapengadopsi" placeholder="Nama Anda" required>
+                  <input type="text" name="namapengadopsi" class="form-control" id="namapengadopsi" placeholder="Nama Anda"  required>
                 </div>
                 <div class="col-md-4 form-group mt-3 mt-md-0">
                   <input type="email" class="form-control" name="emailpengadopsi" id="emailpengadopsi" placeholder="Email Anda" required>
                   <input type="text" name="idkucing" value="{{kucing[0]}}" hidden>
                 </div>
                  <div class="col-md-4 form-group mt-3 mt-md-0">
-                  <input type="number" class="form-control" name="teleponpengadopsi" id="emailpengadopsi" placeholder="Telepon Anda" required>
+                  <input type="number" class="form-control" name="teleponpengadopsi" id="emailpengadopsi" placeholder="Telepon Anda" maxlength="13" required>
                 </div>
               </div>
               <div class="form-group  mt-3">
                <p>Jenis Kelamin:</p>
                 <input type="radio" id="Laki-Laki" name="jeniskelamin" value="Laki-Laki">
                 <label for="Laki-Laki"><strong>Laki-Laki</strong></label>
-                <input type="radio" id="Perempuan" name="jeniskelamin" value="Perempuan" checked>
+                <input type="radio" id="Perempuan" name="jeniskelamin" value="Perempuan">
                 <label for="Jeniskelamin"><strong>Perempuan</strong></label><br>
               </div>
               <div class="form-group mt-3">

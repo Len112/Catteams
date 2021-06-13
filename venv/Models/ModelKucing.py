@@ -5,7 +5,6 @@ import mysql.connector
 
 class Kucing:
 
-
     def __init__(self):
         # Open database connection
         self.conn = con = mysql.connector.connect(user='root', password='',database='catteams', host='localhost')
@@ -15,6 +14,7 @@ class Kucing:
 
         # Fetch all the row from a tkucing table using fetchall() method
     def fetch_all(self):
+        self.conn.connect()
         # execute query in mysql database tteam
         self.cursor.execute('SELECT * FROM tkucing')
         # return result from fetchall method
@@ -22,6 +22,7 @@ class Kucing:
 
         # Fetch a single row tpegawai using fetchall() method.
     def fetch_one(self, id):
+        self.conn.connect()
         # execute query select one in mysql database tteam
         self.cursor.execute('SELECT * FROM tkucing WHERE idkucing = %s',(id,))
         # return result from fetchone method
@@ -49,6 +50,14 @@ class Kucing:
     def delete(self, id):
         # execute query delete in mysql database tkucing
         self.cursor.execute('DELETE FROM tkucing WHERE idkucing = %s', (id,))
+        # Commit your changes in the database
+        self.conn.commit()
+
+
+    # update data into tkucing table
+    def updatestatus(self, kucing=dict({})):
+        # execute query update in mysql database tkucing
+        self.cursor.execute('UPDATE tkucing SET  statuskucing=%s WHERE idkucing= %s',(kucing['statuskucing'], kucing['idkucing']))
         # Commit your changes in the database
         self.conn.commit()
 
