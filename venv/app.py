@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, flash, session#import modul-modul yang disediakan flask
+from flask import Flask, render_template, url_for, redirect, request, flash, session, make_response#import modul-modul yang disediakan flask
 from Models import ModelTeam, ModelUser, ModelMessage, ModelSubscribe, ModelCompany, ModelKucing, ModelAdopsi
 from datetime import datetime
 import mysql.connector
@@ -7,9 +7,9 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import  generate_password_hash, check_password_hash
 from werkzeug.serving import run_simple
 from flask_mail import Mail, Message
+import pdfkit
+config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
 
-
-con = mysql.connector.connect(user='root', password='',database='catteams', host='localhost')
 app = Flask(__name__, static_url_path='/static')
 app.config["UPLOAD_FOLDER"]="./static/assets/images/faces" #path untuk upload folder
 app.config["UPLOAD_FOLDER2"]="./static/assets/img/portfolio" #path untuk upload folder
@@ -630,6 +630,22 @@ def adopsi():
                                              'statuskucing': "Siap di Adopsi"}))
                 Adopsi.update(adopsi=new_adopsi)
                 return redirect(url_for('adopsi'))
+
+@app.route('/<name>/<location>')
+def pdf(name,location):
+    options = {
+        "enable-local-file-access":None
+    }
+    photo ="static/assets/img/portfolio/kucing.jpg"
+    rendered = render_template('pdftemplatepengajuanadopsi.html',name=name,location=location)
+    pdf=pdfkit.from_string(rendered,False,configuration=config,options=options)
+
+    response=make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
+
+    return response
+
 
 
 # main untuk menjalankan app
