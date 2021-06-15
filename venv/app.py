@@ -585,7 +585,19 @@ def ajukanadopsi(idkucing):
         }
         Adopsi.create(adopsi=new_adopsi)
         onekucing = Kucing.fetch_one(idkucing) # membuat variabel untuk menyimpan row data dari database
+        for row in onekucing:
+            namakucing = row[1]
+            jeniskucing = row[2]
         flash("Berhasil mengajukan adopsi, formulir pengajuan akan otomatis terunduh ke perangkat kamu")
+        pesanadopsi = "Terimakasi kak "+ request.form ['namapengadopsi']+ " anda telah mengajukan pengadopsian pada" \
+                       " kucing yang bernama "+namakucing+" dengan jenis "+jeniskucing+" berikut adalah ID adopsi mu "+request.form['idadopsi']+\
+                       " kamu dapat menunggu email confirmasi mengenai hasil pengajuan mu"\
+                       " Untuk mempercepat proses segera kirimkan formulir pengajuan yang telah ditandatangani besera kartu identitas mu"
+        subject="From CatTeams.co Pengajuan Adopsi"
+
+        msg = Message(subject, sender=app.config.get("MAIL_USERNAME"), recipients=[request.form['emailpengadopsi']])
+        msg.body = pesanadopsi
+        mail.send(msg)
         options = {
             "enable-local-file-access": None
         }
@@ -622,6 +634,28 @@ def adopsi():
                 if request.form['statusadopsi'] =="Adopsi ditolak":
                     Kucing.updatestatus(kucing=({'idkucing': request.form['idkucing'],
                     'statuskucing': "Siap di Adopsi"}))
+                    pesanadopsi = "Halo kak " + request.form['namapengadopsi'] + " pengajuan pengadopsian kucing yang bernama " + request.form['namakucing'] + \
+                                  " dengan jenis " + request.form['jeniskucing'] + " dengan ID adopsi " + \
+                                  request.form['idadopsi'] + " Dengan pertimbangan yang matang kami MENOLAK pengajuan adopsi. Anda dapat mengajukan lagi dan dimohon "\
+                                  "untuk mengisi data yang benar dan tepat agar kami dapat mempertimbangkan nya kembali"
+                    subject = "From CatTeams.co Status konfirmasi Pengajuan Adopsi"
+                    msg = Message(subject, sender=app.config.get("MAIL_USERNAME"),
+                                  recipients=[request.form['emailpengadopsi']])
+                    msg.body = pesanadopsi
+                    mail.send(msg)
+                else:
+                    pesanadopsi = "Halo kak " + request.form[
+                        'namapengadopsi'] + " pengajuan pengadopsian kucing yang bernama " + request.form['namakucing'] + \
+                                  " dengan jenis " + request.form['jeniskucing'] + " dengan ID adopsi " +  request.form['idadopsi'] +\
+                                  " Dengan pertimbangan yang matang kami MENERIMA pengajuan adopsi." \
+                                                    " Anda diharapkan segera mengirim formulir pengajuan dan kartu identitas" \
+                                                    " kepada kami agar dapat mengambil kucing dan berhasil mengadopsi"
+                    subject = "From CatTeams.co Status konfirmasi Pengajuan Adopsi"
+                    msg = Message(subject, sender=app.config.get("MAIL_USERNAME"),
+                                  recipients=[request.form['emailpengadopsi']])
+                    msg.body = pesanadopsi
+                    mail.send(msg)
+
                 return redirect(url_for('adopsi'))
             if request.form['verifikasidata'] =="lengkap":
                 new_adopsi = {
@@ -631,6 +665,15 @@ def adopsi():
                 Adopsi.update(adopsi=new_adopsi)
                 Kucing.updatestatus(kucing=({'idkucing': request.form['idkucing'],
                                                  'statuskucing': "Telah di Adopsi"}))
+                pesanadopsi = "Halo kak " + request.form[
+                    'namapengadopsi'] + " pengadopsian kucing yang bernama " + request.form['namakucing'] + \
+                              " dengan jenis " + request.form['jeniskucing'] + " dengan ID adopsi " + request.form['idadopsi'] + \
+                              " Telah BERHASIL terimakasih, dan kami berharap anda dapat berteman dan merawat baik kucing tersebut"
+                subject = "From CatTeams.co Status konfirmasi Pengajuan Adopsi"
+                msg = Message(subject, sender=app.config.get("MAIL_USERNAME"),
+                              recipients=[request.form['emailpengadopsi']])
+                msg.body = pesanadopsi
+                mail.send(msg)
                 return redirect(url_for('adopsi'))
             if request.form['verifikasidata'] =="tidaklengkap":
                 new_adopsi = {
@@ -640,6 +683,17 @@ def adopsi():
                 Kucing.updatestatus(kucing=({'idkucing': request.form['idkucing'],
                                              'statuskucing': "Siap di Adopsi"}))
                 Adopsi.update(adopsi=new_adopsi)
+                pesanadopsi = "Halo kak " + request.form[
+                    'namapengadopsi'] + " pengadopsian kucing yang bernama " + request.form['namakucing'] + \
+                              " dengan jenis " + request.form['jeniskucing'] + " dengan ID adopsi " + request.form[
+                                  'idadopsi'] + \
+                              " Telah GAGAL. Anda dapat mengajukan lagi dan dimohon untuk mengisi data yang benar dan" \
+                              " tepat agar kami dapat mempertimbangkan nya kembali serta melengkapkan pengiriman data"
+                subject = "From CatTeams.co Status konfirmasi Pengajuan Adopsi"
+                msg = Message(subject, sender=app.config.get("MAIL_USERNAME"),
+                              recipients=[request.form['emailpengadopsi']])
+                msg.body = pesanadopsi
+                mail.send(msg)
                 return redirect(url_for('adopsi'))
 
 @app.route('/formulirpengajuanadopsi/<idkucing>')
@@ -649,12 +703,15 @@ def pdf(idkucing):
     options = {
         "enable-local-file-access": None
     }
+    for row in oneadopsi:
+        print(row[0])
+        idadopsi=row[0]
     rendered = render_template('pdftemplatepengajuanadopsiunduh.html', DataOA=dict({'oneadopsi': oneadopsi}),DataOK=dict({'onekucing': onekucing}))
     pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
     DataOA = dict({'oneadopsi': oneadopsi})
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'attactment; filename=Formulir Pengajuan Adopsi.pdf'
+    response.headers['Content-Disposition'] = 'attactment; filename=Formulir Pengajuan Adopsi '+idadopsi+'.pdf'
 
     return response
 

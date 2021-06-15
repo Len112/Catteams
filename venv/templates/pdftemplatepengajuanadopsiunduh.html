@@ -22,7 +22,7 @@
 <h3>Jenis Kelamin Pengadopsi   : {{adopsi[5]}}</h3>
 <h3>Alamat Pengadopsi          : {{adopsi[6]}}</h3>
 <h3>Alasan Adopsi              : {{adopsi[7]}}</h3>
-{% endfor %}
+
 <h3>--------------------------------------------------------------------------------------------------------------------------------------------------</h3>
 {% for kucing in DataOK['onekucing'] %}
 <h2 style="text-align:center">Data Kucing yang Ingin diadopsi</h2>
@@ -38,8 +38,9 @@
 {% endfor %}
 
 <h4>Dengan ini saya dengan sadar mengajukan adopsi kepada kucing dengan data diatas dan berjanji akan merawat dengan sebaik mungkin</h4>
-<h3 style="text-align:right">Tanda Tangan</h3></br>
-<h3 style="text-align:right">(nama)</h3>
+<h3 style="text-align:right">Tanda Tangan</h3><br>
+<h3 style="text-align:right">{{adopsi[2]}}</h3>
 <h4>Tanda tangan dan kirimkan formulir ini kepada kami melalui email atau alamat kami</h4>
+{% endfor %}
 </body>
 </html>
