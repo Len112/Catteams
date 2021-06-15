@@ -642,7 +642,7 @@ def pdf(name,location):
 
     response=make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
+    response.headers['Content-Disposition'] = 'attacment; filename=output.pdf'
 
     return response
 
