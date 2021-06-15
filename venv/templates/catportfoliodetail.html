@@ -17,12 +17,14 @@
 
       </div>
     </section><!-- End Breadcrumbs -->
+     {% for kucing in DataOK['onekucing'] %}
      <div class="my-3">
                 {% with messages = get_flashed_messages() %}
                        {% if messages %}
                         {% for message in messages %}
                           <div class="alert alert-success alert" role="alert">
                               {{message}}
+                              Jika belum kamu bisa unduh di <a href="/formulirpengajuanadopsi/{{kucing[0]}}">link</a> ini
                           </div>
                         {% endfor %}
                        {% endif %}
@@ -31,7 +33,6 @@
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
       <div class="container">
-      {% for kucing in DataOK['onekucing'] %}
         <div class="row gy-4">
 
           <div class="col-lg-8">

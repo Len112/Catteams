@@ -11,19 +11,21 @@
     <p class="float-center"><img id="output2" width="150" src="http://localhost:5000/static/assets/images/logo.png"/></p>
     <h1 style="text-align:center">Formulir Pengajuan Adopsi Kucing</h1>
 </div>
-<h3>ID Adopsi : {{adopsi['idadopsi']}} </h3>
+{% for adopsi in DataOA['oneadopsi'] %}
+<h3>ID Adopsi : {{adopsi[0]}} </h3>
 <h3>--------------------------------------------------------------------------------------------------------------------------------------------------</h3>
 <h2 style="text-align:center">Data diri Pengadopsi</h2>
-<h3>Nomor Identitas Pengadopsi : {{adopsi['noidentitaspengadopsi']}} </h3>
-<h3>Nama Pengadopsi            : {{adopsi['namapengadopsi']}}</h3>
-<h3>Email Pengadopsi           : {{adopsi['emailpengadopsi']}}</h3>
-<h3>Nomor Telepon Pengadopsi   : {{adopsi['teleponpengadopsi']}}</h3>
-<h3>Jenis Kelamin Pengadopsi   : {{adopsi['jeniskelamin']}}</h3>
-<h3>Alamat Pengadopsi          : {{adopsi['alamatpengadopsi']}}</h3>
-<h3>Alasan Adopsi              : {{adopsi['alasanadopsi']}}</h3>
+<h3>Nomor Identitas Pengadopsi : {{adopsi[1]}} </h3>
+<h3>Nama Pengadopsi            : {{adopsi[2]}}</h3>
+<h3>Email Pengadopsi           : {{adopsi[3]}}</h3>
+<h3>Nomor Telepon Pengadopsi   : {{adopsi[4]}}</h3>
+<h3>Jenis Kelamin Pengadopsi   : {{adopsi[5]}}</h3>
+<h3>Alamat Pengadopsi          : {{adopsi[6]}}</h3>
+<h3>Alasan Adopsi              : {{adopsi[7]}}</h3>
+{% endfor %}
 <h3>--------------------------------------------------------------------------------------------------------------------------------------------------</h3>
-<h2 style="text-align:center">Data Kucing yang Ingin diadopsi</h2>
 {% for kucing in DataOK['onekucing'] %}
+<h2 style="text-align:center">Data Kucing yang Ingin diadopsi</h2>
 <h3>ID Kucing                  : {{kucing[0]}}</h3>
 <h3>Nama Kucing                : {{kucing[1]}}</h3>
 <h3>Jenis Kucing               : {{kucing[2]}}</h3>
@@ -36,7 +38,7 @@
 {% endfor %}
 
 <h4>Dengan ini saya dengan sadar mengajukan adopsi kepada kucing dengan data diatas dan berjanji akan merawat dengan sebaik mungkin</h4>
-<h3 style="text-align:right">Tanda Tangan</h3><br></br>
+<h3 style="text-align:right">Tanda Tangan</h3></br>
 <h3 style="text-align:right">(nama)</h3>
 <h4>Tanda tangan dan kirimkan formulir ini kepada kami melalui email atau alamat kami</h4>
 </body>

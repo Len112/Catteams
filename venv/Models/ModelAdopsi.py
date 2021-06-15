@@ -15,7 +15,7 @@ class Adopsi:
 
         # Fetch all the row from a tkucing table using fetchall() method
     def fetch_all(self):
-
+        self.conn.connect()
         # execute query in mysql database tteam
         self.cursor.execute('SELECT tpengadopsi.idadopsi,tpengadopsi.noidentitaspengadopsi,tpengadopsi.namapengadopsi,tpengadopsi.emailpengadopsi,tpengadopsi.teleponpengadopsi,tpengadopsi.jeniskelamin,tpengadopsi.alamatpengadopsi,tpengadopsi.alasanadopsi,tpengadopsi.statusadopsi,tpengadopsi.idkucing,tkucing.namakucing,tkucing.jeniskucing,tkucing.photokucing  FROM `tpengadopsi` JOIN `tkucing` WHERE tpengadopsi.idkucing=tkucing.idkucing')
         # return result from fetchall method
@@ -23,10 +23,18 @@ class Adopsi:
 
         # Fetch a single row tpegawai using fetchall() method.
     def fetch_one(self, id):
+        self.conn.connect()
         # execute query select one in mysql database tteam
         self.cursor.execute('SELECT * FROM tpengadopsi WHERE idadopsi = %s',(id,))
         # return result from fetchone method
         return self.cursor.fetchall()
+
+    def fetch_one_bykucing(self, id):
+         self.conn.connect()
+         # execute query select one in mysql database tteam
+         self.cursor.execute('SELECT * FROM tpengadopsi WHERE idkucing = %s', (id,))
+         # return result from fetchone method
+         return self.cursor.fetchall()
 
         #insert data into tpengadopsi table
     def create(self, adopsi=dict({})):
@@ -43,7 +51,13 @@ class Adopsi:
         # Commit your changes in the database
         self.conn.commit()
 
-
+    # Fetch all the row from a tkategori table using fetchall() method
+    def fetch_newadoptionsubmition(self):
+       self.conn.connect()
+       # execute query in mysql database tmessage
+       self.cursor.execute('SELECT * from tpengadopsi WHERE statusadopsi="Proses Pengajuan"')
+        # return result from fetchall method
+       return self.cursor.fetchall()
 
 
 

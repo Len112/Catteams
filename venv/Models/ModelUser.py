@@ -10,6 +10,7 @@ class User:
 
         # Fetch all the row from a tkategori table using fetchall() method
     def fetch_all(self):
+        self.conn.connect()
         # execute query in mysql database tpegawai
         self.cursor.execute('SELECT * FROM tuser')
         # return result from fetchall method
@@ -17,6 +18,7 @@ class User:
 
         # Fetch a single row tpegawai using fetchall() method.
     def fetch_one(self, id):
+        self.conn.connect()
         # execute query select one in mysql database tpegawai
         self.cursor.execute('SELECT * FROM tuser WHERE userid =%s',(id))
         # return result from fetchone method

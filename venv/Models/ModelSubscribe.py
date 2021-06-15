@@ -10,6 +10,7 @@ class Subscribe:
 
 # Fetch all the row from a tsubscribe table using fetchall() method
     def fetch_all(self):
+        self.conn.connect()
         # execute query in mysql database tsubscribe
         self.cursor.execute('SELECT * from tsubscribe')
         # return result from fetchall method
@@ -17,6 +18,7 @@ class Subscribe:
 
      # Fetch a single row tsubscribe using fetchall() method.
     def fetch_one(self, id):
+        self.conn.connect()
         # execute query select one in mysql database tsubscribe
         self.cursor.execute('SELECT * WHERE idsubscribe = %s',(id,))
         # return result from fetchone method
@@ -29,6 +31,7 @@ class Subscribe:
         self.conn.commit()
 
     def count(self):
+        self.conn.connect()
         # execute query delete in mysql database tMessage
         self.cursor.execute('SELECT COUNT(idsubscribe) FROM tsubscribe WHERE 1')
         # Commit your changes in the database

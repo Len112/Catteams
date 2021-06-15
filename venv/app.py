@@ -66,9 +66,10 @@ def dashboard():
         countunrepliedmessage = len(UnrepliedMessage)
         Subscribers =Subscribe.fetch_all()
         countsubscribe = len(Subscribers)
+        countadopsi = len(Adopsi.fetch_newadoptionsubmition())
         newmessage = SendMessage.fetch_new3message()
         return render_template("dashboard.html",DataU=dict({'oneteam': oneteam}),
-                               DataCM=countunrepliedmessage, DataCS=countsubscribe, DataNew=dict({'newmessage':newmessage}))
+                               DataCM=countunrepliedmessage, DataCS=countsubscribe, DataNew=dict({'newmessage':newmessage}),DataAD=countadopsi)
 
 #Membuat route menuju Sign In page
 @app.route('/signin',methods=['GET','POST'])
@@ -570,7 +571,6 @@ def ajukanadopsi(idkucing):
         return render_template('adoptionsubmitionform.html', DataC=dict({'onecompany': onecompany}),
                                DataOK=dict({'onekucing': onekucing}))
     if request.method == 'POST':
-        listkucing = Kucing.fetch_all()  # membuat variabel untuk menyimpan row data dari database
         new_adopsi = {
             'idadopsi' : request.form['idadopsi'],
             'noidentitaspengadopsi': request.form['noidentitaspengadopsi'],
@@ -584,8 +584,19 @@ def ajukanadopsi(idkucing):
             'idkucing': request.form['idkucing'],
         }
         Adopsi.create(adopsi=new_adopsi)
-        flash("Berhasil mengajukan adopsi")
-        return redirect(url_for('catportfoliodetail', idkucing=idkucing))
+        onekucing = Kucing.fetch_one(idkucing) # membuat variabel untuk menyimpan row data dari database
+        flash("Berhasil mengajukan adopsi, formulir pengajuan akan otomatis terunduh ke perangkat kamu")
+        options = {
+            "enable-local-file-access": None
+        }
+        rendered = render_template('pdftemplatepengajuanadopsi.html', DataOK=dict({'onekucing': onekucing}),adopsi=new_adopsi)
+        pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+
+        response = make_response(pdf)
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'attactment; filename=Formulir Pengajuan Adopsi '+request.form['idadopsi']+'.pdf'
+
+        return response
 
 @app.route("/adopsi", methods=['GET','POST','POST1'])
 def adopsi():
@@ -631,18 +642,19 @@ def adopsi():
                 Adopsi.update(adopsi=new_adopsi)
                 return redirect(url_for('adopsi'))
 
-@app.route('/<name>/<location>')
-def pdf(name,location):
+@app.route('/formulirpengajuanadopsi/<idkucing>')
+def pdf(idkucing):
+    oneadopsi =Adopsi.fetch_one_bykucing(idkucing)  # membuat variabel untuk menyimpan row data dari database
+    onekucing = Kucing.fetch_one(idkucing)  # membuat variabel untuk menyimpan row data dari database
     options = {
-        "enable-local-file-access":None
+        "enable-local-file-access": None
     }
-    photo ="static/assets/img/portfolio/kucing.jpg"
-    rendered = render_template('pdftemplatepengajuanadopsi.html',name=name,location=location)
-    pdf=pdfkit.from_string(rendered,False,configuration=config,options=options)
-
-    response=make_response(pdf)
+    rendered = render_template('pdftemplatepengajuanadopsiunduh.html', DataOA=dict({'oneadopsi': oneadopsi}),DataOK=dict({'onekucing': onekucing}))
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+    DataOA = dict({'oneadopsi': oneadopsi})
+    response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'attacment; filename=output.pdf'
+    response.headers['Content-Disposition'] = 'attactment; filename=Formulir Pengajuan Adopsi.pdf'
 
     return response
 

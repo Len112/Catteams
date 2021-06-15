@@ -15,6 +15,7 @@ class Team:
 
         # Fetch all the row from a tkategori table using fetchall() method
     def fetch_all(self):
+        self.conn.connect()
         # execute query in mysql database tteam
         self.cursor.execute('SELECT tteam.idteam, tteam.namateam, tteam.jeniskelamin, tteam.nomorhp, tteam.alamat, tteam.jabatan, tuser.userphoto, tuser.userid,tuser.userabout FROM `tteam` JOIN `tuser` WHERE tteam.userid = tuser.userid')
         # return result from fetchall method
@@ -22,6 +23,7 @@ class Team:
 
         # Fetch a single row tpegawai using fetchall() method.
     def fetch_one(self, id):
+        self.conn.connect()
         # execute query select one in mysql database tteam
         self.cursor.execute('SELECT tteam.idteam, tteam.namateam, tteam.jeniskelamin, tteam.nomorhp, tteam.alamat, tteam.jabatan, tuser.userphoto, tuser.userabout, tuser.userpassword FROM tteam JOIN tuser ON tteam.userid = tuser.userid WHERE tuser.userid = %s',(id,))
         # return result from fetchone method
@@ -67,12 +69,14 @@ class Team:
         self.conn.commit()
 
     def idteam(self):
+        self.conn.connect()
         # execute query in mysql database tteam
         self.cursor.execute('SELECT MAX(idteam) FROM tteam')
         # return result from fetchone method
         return self.cursor.fetchone()[0]
 
     def count(self):
+        self.conn.connect()
         # execute query delete in mysql database tteam
         self.cursor.execute('SELECT COUNT(idteam) FROM tteam WHERE 1')
         # Commit your changes in the database

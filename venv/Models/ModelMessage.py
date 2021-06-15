@@ -10,6 +10,7 @@ class Message:
 
 # Fetch all the row from a tkategori table using fetchall() method
     def fetch_all(self):
+        self.conn.connect()
         # execute query in mysql database tpegawai
         self.cursor.execute('SELECT * from tmessage')
         # return result from fetchall method
@@ -17,6 +18,7 @@ class Message:
 
      # Fetch a single row tpegawai using fetchall() method.
     def fetch_one(self, id):
+        self.conn.connect()
         # execute query select one in mysql database tpegawai
         self.cursor.execute('SELECT * from tmessage WHERE idmessage = %s',(id,))
         # return result from fetchone method
@@ -44,6 +46,7 @@ class Message:
 
     # Fetch all the row from a tkategori table using fetchall() method
     def fetch_no(self):
+       self.conn.connect()
        # execute query in mysql database tmessage
        self.cursor.execute('SELECT * from tmessage WHERE replied="No"')
         # return result from fetchall method
@@ -51,6 +54,7 @@ class Message:
 
     # Fetch all the row from a tkategori table using fetchall() method
     def fetch_new3message(self):
+        self.conn.connect()
         # execute query in mysql database tmessage
         self.cursor.execute('SELECT * from tmessage WHERE replied="No" ORDER BY tanggal_kirim DESC Limit 3')
       # return result from fetchall method

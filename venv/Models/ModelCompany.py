@@ -13,6 +13,7 @@ class Company:
 
         # Fetch all the row from a tkategori table using fetchall() method
     def fetch_all(self):
+        self.conn.connect()
         # execute query in mysql database tteam
         self.cursor.execute('SELECT * FROM tcompany')
         # return result from fetchall method
@@ -20,6 +21,7 @@ class Company:
 
         # Fetch a single row tpegawai using fetchall() method.
     def fetch_one(self):
+        self.conn.connect()
         # execute query select one in mysql database tteam
         self.cursor.execute('SELECT * FROM `tcompany` WHERE 1')
         # return result from fetchone method
