@@ -610,7 +610,7 @@ def ajukanadopsi(idkucing):
 
         return response
 
-@app.route("/adopsi", methods=['GET','POST','POST1'])
+@app.route("/adopsi", methods=['GET','POST'])
 def adopsi():
     if not session.get("userid"):  # Jika session tidak mendapat userid (tidak sign in)
         return redirect('404')  # akan menuju halaman error
@@ -715,7 +715,89 @@ def pdf(idkucing):
 
     return response
 
+@app.route('/reportdatakucing')
+def pdfkucing():
+    listkucing = Kucing.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+    # merender template pegawai (view) dan memasukan data yang dari variabel listpegawai
+    rendered = render_template("pdftemplatekucing.html", data=dict({'listkucing': listkucing}))
+    options = {
+        "enable-local-file-access": None
+    }
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attactment; filename=Report Data Kucing.pdf'
+    return response
 
+@app.route('/reportdatateam')
+def pdfteam():
+    listteam = Team.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+    # merender template pegawai (view) dan memasukan data yang dari variabel listpegawai
+    rendered = render_template("pdftemplateteam.html", data=dict({'listteam': listteam}))
+    options = {
+        "enable-local-file-access": None
+    }
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attactment; filename=Report Data Team.pdf'
+    return response
+
+@app.route('/reportdataseluruhadopsi')
+def pdfseluruhadopsi():
+    listadopsi = Adopsi.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+    # merender template pegawai (view) dan memasukan data yang dari variabel listpegawai
+    rendered = render_template("pdftemplateseluruhadopsi.html", data=dict({'listadopsi': listadopsi}))
+    options = {
+        "enable-local-file-access": None
+    }
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attactment; filename=Report Seluruh Data Adopsi.pdf'
+    return response
+
+@app.route('/reportdataadopsibaru')
+def pdfadopsibaru():
+    listadopsi = Adopsi.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+    # merender template pegawai (view) dan memasukan data yang dari variabel listpegawai
+    rendered = render_template("pdftemplateadopsibaru.html", data=dict({'listadopsi': listadopsi}))
+    options = {
+        "enable-local-file-access": None
+    }
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attactment; filename=Report Data Adopsi Baru.pdf'
+    return response
+
+@app.route('/reportdataadopsiproses')
+def pdfadopsiproses():
+    listadopsi = Adopsi.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+    # merender template pegawai (view) dan memasukan data yang dari variabel listpegawai
+    rendered = render_template("pdftemplateadopsiproses.html", data=dict({'listadopsi': listadopsi}))
+    options = {
+        "enable-local-file-access": None
+    }
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attactment; filename=Report Data Adopsi Proses.pdf'
+    return response
+
+@app.route('/reportdataadopsiverifikasi')
+def pdfadopsiverifikasi():
+    listadopsi = Adopsi.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+    # merender template pegawai (view) dan memasukan data yang dari variabel listpegawai
+    rendered = render_template("pdftemplateadopsiverifikasi.html", data=dict({'listadopsi': listadopsi}))
+    options = {
+        "enable-local-file-access": None
+    }
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attactment; filename=Report Data Adopsi Verifikasi.pdf'
+    return response
 
 # main untuk menjalankan app
 if __name__ == '__main__' :
