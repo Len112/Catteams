@@ -171,7 +171,41 @@
 
       </div>
     </section><!-- End adoption Portfolio Section -->
+    <!-- ======= Check adoption status Section ======= -->
+    <section id="cekstatus">
+      <div class="container">
 
+        <div class="section-title">
+          <h2>Check Adoption Status</h2>
+        </div>
+         <mai>
+	     <h1 id="h1">CEK STATUS</h1>
+           <form action="http://localhost:5000/#cekstatus" method="post">
+	         <div class="SearchBox">
+              <input id="input" type="text" name="idadopsi" class="SearchBox-input" placeholder="Masukan ID Adopsi Anda">
+              <button id="button" class="SearchBox-button">
+				<i class="SearchBox-icon  material-icons">search</i>
+              </button>
+             </div>
+           </form>
+         </mai>
+          <div class="row">
+            {% for adopsi in DataA['oneadopsi'] %}
+             <div>
+                 <p></p>
+             </div>
+             <h3 style="text-align: center">Status Adopsi : {{adopsi[8]}}</h3>
+              {% if adopsi[8]== "Proses Pengajuan" %}
+              <div align="center">
+                  <a href="http://localhost:5000/formulirpengajuanadopsi/{{adopsi[9]}}">
+                       Download Formulir Pengajuan Anda
+                  </a>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+      </div>
+    </section><!-- End SCheck adoption status Section -->
     <!-- ======= Team Section ======= -->
     <section id="team" class="team section-bg">
       <div class="container">
@@ -212,7 +246,65 @@
         <div class="section-title">
           <h2>Frequently Asked Questions</h2>
         </div>
+          <ul class="faq-list">
 
+          <li>
+            <div data-bs-toggle="collapse" class="collapsed question" href="#faq1">Bagaimana cara mengadopsi kucing di Web ini ? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq1" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Pergi ke section portofolio kucing di halaman ini, kemudian akan di tampilkan foto kucing yang siap di adopsi. Pilih salah satu kucing tersebut dan klik link foto kucing tersebut, nanti akan di arahkan ke halaman portofolio kucing yang
+                anda klik kemudian anda bisa mengajukan adopsi dengan mengklik tombol ajukan adopsi, anda akan di arahkan ke halaman pengisian formulir pengajuan adopsi. Ketika selesai mengisi klik tombol ajukan dan akan lansung mengunduh formulir pengajuan yang
+                harus anda tanda-tangani dan kirim kembali kepada kami, anda bisa mengirim melalui email (digital) atau alamat (fisik) kami yang tertera di section contact us. Perkembangan status adopsi anda akan di kirimkan kepada email anda.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq2" class="collapsed question">Bagaimana cara mengetahui status pengajuan adopsi yang saya ajukan ? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq2" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Pergi ke section check adoption status kemudian masukan ID Adopsi ke kolom pencarian dan klik tombol dengan icon cari kemudian nanti akan muncul status adopsi anda.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq3" class="collapsed question">Bagaimana cara menghubungi CatTeams.co ? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq3" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Pergi ke section contact us, kemudian anda bisa menghubungi kami melalui kontak yang ada atau mengirim pesan dengan mengisi form yang ada dan balasan akan dikirimkan ke email anda.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq4" class="collapsed question">Kenapa pengadopsian saya di tolak atau gagal? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq4" class="collapse" data-bs-parent=".faq-list">
+              <p>
+               Adopsi anda ditolak karena alasan dan data yang anda isi tidak serius dan tidak benar. Adopsi anda gagal karena anda tidak melengkapi data yang di butuhkan yaitu fotokopi kartu identitas dan formulir pengajuan yang sudah ditanda-tangani.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq5" class="collapsed question">Apakah saya bisa mengujakan adopsi ulang jika pengajuan adopsi saya sebelumnya di tolak atau gagal ?? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq5" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Tentu saja bisa, asalkan kucing yang anda ingin adopsi belum di adopsi orang lain.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq6" class="collapsed question">Bagaimana cara saya berkonsultasi kepada CatTeams.co tentang kucing saya? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq6" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Anda bisa mengirim kami pesan melalui email kami atau mengisi form pesan di section contact us. Kami akan membalas pesan anda ke email anda.
+              </p>
+            </div>
+          </li>
+
+        </ul>
 
 
       </div>

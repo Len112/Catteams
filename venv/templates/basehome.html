@@ -5293,7 +5293,103 @@ section {
   color: gray;
   pointer-events: none;
 }
+:root {
+	--primary-color: #e0c9f5;
+	--accent-color: #bc72ff;
+
+	--text-color: #2b2b2b;
+	--body-color: #ffffff;
+	--main-font: 'roboto';
+	--font-bold: 700;
+	--font-regular: 400;
+}
+* { box-sizing: border-box }
+
+
+mai{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+#h1 { font-weight: var(--font-bold) }
+#input,
+#button {
+	border: none;
+	background: none;
+	outline: 0;
+}
+#button{
+	background-color : #bc72ff;
+}
+#button {cursor: pointer}
+.SearchBox-input::placeholder {/* No es un seudoelemento estandar */
+ color:#2b2b2b;
+	opacity: .6;
+}
+/* Chrome, Opera ySafari */
+.SearchBox-input::-webkit-input-placeholder {
+  color: #2b2b2b;
+}
+/* Firefox 19+ */
+.SearchBox-input::-moz-placeholder {
+  color: #2b2b2b;
+}
+/* IE 10+ y Edge */
+.SearchBox-input:-ms-input-placeholder {
+  color: #2b2b2b;
+}
+/* Firefox 18- */
+#formGroupExampleInput:-moz-placeholder {
+  color: #2b2b2b;
+}
+
+
+
+.SearchBox {
+	--height: 4em;
+	display: flex;
+
+	border-radius: var(--height);
+	background-color: var(--primary-color);
+	height: var(--height);
+}
+	.SearchBox:hover .SearchBox-input {
+		padding-left: 2em;
+		padding-right: 1em;
+		width: 240px;
+	}
+	.SearchBox-input {
+		width: 0;
+		font-size: 1.2em;
+		color: ##2b2b2b;
+		transition: .45s;
+	}
+	.SearchBox-button {
+		display: flex;
+		border-radius: 50%;
+		width: var(--height);
+		height: var(--height);
+		background-color: var(--accent-color);
+		transition: .3s;
+	}
+	.SearchBox-button:active  {
+		transform: scale(.85);
+	}
+	.SearchBox-icon {
+		margin: auto;
+		color: #fff;
+	}
+
+
+@media screen and (min-width: 400px){
+	.SearchBox:hover .SearchBox-input {
+		width: 500px;
+	}
+}
   </style>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -5308,7 +5404,9 @@ section {
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">Tentang</a></li>
           <li><a class="nav-link scrollto " href="#adoptionportfolio">Portofolio Kucing</a></li>
+          <li><a class="nav-link scrollto" href="#cekstatus">Check Status Adoption</a></li>
           <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="#faq">F.A.Q</a></li>
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
           <li><a class="getstarted scrollto" href="/signin">Admin Signin</a></li>
         </ul>
@@ -5342,8 +5440,10 @@ section {
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="#hero">Home</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#adoptinportofolio">Adoption Portofolio</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#adoptionportfolio">Portofolio Kucing</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#cekstatus">Check Adoption Status</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#team">Team</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#faq">F.A.Q</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#contact">Contact</a></li>
             </ul>
           </div>

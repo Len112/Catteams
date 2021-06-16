@@ -37,12 +37,26 @@ mail = Mail(app)
 def static_dir(path):
     return send_from_directory("static", path)
 
-@app.route("/")
+@app.route("/",methods=['GET','POST'])
 def home():
-    onecompany = Company.fetch_all() # membuat variabel untuk menyimpan row data dari database
-    listteam = Team.fetch_all()  # membuat variabel untuk menyimpan row data dari database
-    listkucing = Kucing.fetch_all()  # membuat variabel untuk menyimpan row data dari database
-    return render_template("home.html", DataC=dict({'onecompany':onecompany}),data = dict({'listteam':listteam}), dataK=dict({'listkucing':listkucing}))
+    if request.method == "POST":  # jika method post
+        onecompany = Company.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+        listteam = Team.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+        listkucing = Kucing.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+        idadopsi = request.form['idadopsi']
+        oneadopsi = Adopsi.fetch_one(idadopsi)  # membuat variabel untuk menyimpan row data dari database
+        return render_template("home.html", DataC=dict({'onecompany': onecompany}), data=dict({'listteam': listteam}),
+                               dataK=dict({'listkucing': listkucing}), DataA=dict({'oneadopsi': oneadopsi}))
+
+    if request.method == "GET":  # jika method post
+        onecompany = Company.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+        listteam = Team.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+        listkucing = Kucing.fetch_all()  # membuat variabel untuk menyimpan row data dari database
+        idadopsi = ""
+        oneadopsi = Adopsi.fetch_one(idadopsi)  # membuat variabel untuk menyimpan row data dari database
+        return render_template("home.html", DataC=dict({'onecompany': onecompany}), data=dict({'listteam': listteam}),
+                               dataK=dict({'listkucing': listkucing}), DataA=dict({'oneadopsi': oneadopsi}))
+
 
 @app.route("/404")
 def page404():
@@ -706,6 +720,22 @@ def pdf(idkucing):
     for row in oneadopsi:
         print(row[0])
         idadopsi=row[0]
+    rendered = render_template('pdftemplatepengajuanadopsiunduh.html', DataOA=dict({'oneadopsi': oneadopsi}),DataOK=dict({'onekucing': onekucing}))
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
+    DataOA = dict({'oneadopsi': oneadopsi})
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attactment; filename=Formulir Pengajuan Adopsi '+idadopsi+'.pdf'
+
+    return response
+
+@app.route('/formulirpengajuanadopsidownload/<idadopsi>/<idkucing>')
+def pdfformulir(idadopsi,idkucing):
+    oneadopsi =Adopsi.fetch_one(idadopsi)  # membuat variabel untuk menyimpan row data dari database
+    onekucing = Kucing.fetch_one(idkucing)  # membuat variabel untuk menyimpan row data dari database
+    options = {
+        "enable-local-file-access": None
+    }
     rendered = render_template('pdftemplatepengajuanadopsiunduh.html', DataOA=dict({'oneadopsi': oneadopsi}),DataOK=dict({'onekucing': onekucing}))
     pdf = pdfkit.from_string(rendered, False, configuration=config, options=options)
     DataOA = dict({'oneadopsi': oneadopsi})
