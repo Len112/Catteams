@@ -69,8 +69,8 @@
     <!-- ======= Adoption Submition Section ======= -->
     <section id="ajukanadopsi" class="portfolio-details">
       <div class="container">
-        <div class="row gy-4">
-          <form action="/ajukanadopsi/{{kucing[0]}}" method="post" class="php-email-form">
+        <div class="row gy-4" id ="sectionadopsi">
+          <form action="/ajukanadopsi/{{kucing[0]}}" method="post"  id ="formadopsi" class="php-email-form" onsubmit="countdown();">
               <div class="row form-group mt-3">
                 <div class="col-md-6 form-group">
                  <label>ID Adopsi</label>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-md-6 form-group">
                     <label></label>
-                  <input type="text" class="form-control" name="noidentitaspengadopsi" id="noidentitaspengadopsi" placeholder="Nomor Identitas Anda">
+                  <input type="text" class="form-control" name="noidentitaspengadopsi" id="noidentitaspengadopsi" placeholder="Nomor Identitas Anda" required>
                 </div>
               </div>
               <div class="row form-group mt-3">
@@ -110,9 +110,9 @@
               <input type="checkbox" class="form-check-input" id="yakindatabenar" required>
               <label class="form-check-label" for="yakindatabenar">Saya berjanji bahwa data yang saya isi sudah sebenar-benarnya</label>
               </div>
-              <div class="text-center"><button class="button buttonadopt" type="submit" onclick="setTimeout(myFunction,10000)">Ajukan Adopsi</button></div>
+              <div class="text-center"><button class="button buttonadopt" type="submit" id="btnSubmit" >Ajukan Adopsi</button></div>
               <script type="text/javascript">
-                 document.getElementById("idadopsi").value = getRandomString(8);
+                document.getElementById("idadopsi").value = getRandomString(8);
 
                 function getRandomString(length) {
                   var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -126,10 +126,32 @@
                 function myFunction(){
                 window.location.href= "http://localhost:5000/catportfoliodetail/{{kucing[0]}}";
                 }
+
+                 // Total seconds to wait
+
+                 var seconds = 15;
+                 function countdown() {
+                 seconds = seconds - 1;
+                   if (seconds < 0) {
+                  // Change your redirection link here
+                 window.location = "http://localhost:5000/catportfoliodetail/{{kucing[0]}}";
+                  } else {
+                   // Update remaining seconds
+                  document.getElementById("countdown").innerHTML ="Silahkan tunggu proses submit dalam "+ seconds + " detik lagi";
+                  document.getElementById("btnSubmit").hidden = true;
+                  // Count down using javascript
+                   window.setTimeout("countdown()", 1000);
+                 }
+               }
+
+
              </script>
             </form>
 
         </div>
+         <div style="margin-top:25px">
+           <h4  id="countdown" style="text-align:center"></h4>
+         </div>
       </div>
     </section><!-- End  Adoption submition Section -->
   {% endfor %}
